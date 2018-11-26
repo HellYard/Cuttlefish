@@ -1,6 +1,6 @@
 package com.hellyard.cuttlefish.definitions.yaml;
 
-import com.hellyard.cuttlefish.api.Definition;
+import com.hellyard.cuttlefish.api.definition.Definition;
 
 import java.util.regex.Pattern;
 

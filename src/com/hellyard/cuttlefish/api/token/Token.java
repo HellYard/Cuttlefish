@@ -1,4 +1,4 @@
-package com.hellyard.cuttlefish.token;
+package com.hellyard.cuttlefish.api.token;
 
 /**
  * Created by creatorfromhell.

@@ -1,8 +1,9 @@
-package com.hellyard.cuttlefish.api;
+package com.hellyard.cuttlefish.api.token;
 
-import com.hellyard.cuttlefish.token.Token;
+import com.hellyard.cuttlefish.api.definition.Definition;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ import java.util.List;
  */
 public interface Tokenizer {
 
-  List<Token> tokenize(File file, List<Definition> definitions);
+  LinkedList<Token> tokenize(File file, List<Definition> definitions);
 }

@@ -1,6 +1,6 @@
 package com.hellyard.cuttlefish;
 
-import com.hellyard.cuttlefish.api.Definition;
+import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.definitions.DefinitionGroup;
 import com.hellyard.cuttlefish.util.Validation;
 

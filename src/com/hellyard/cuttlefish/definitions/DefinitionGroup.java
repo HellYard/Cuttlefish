@@ -1,6 +1,6 @@
 package com.hellyard.cuttlefish.definitions;
 
-import com.hellyard.cuttlefish.api.Definition;
+import com.hellyard.cuttlefish.api.definition.Definition;
 
 import java.util.LinkedHashMap;
 

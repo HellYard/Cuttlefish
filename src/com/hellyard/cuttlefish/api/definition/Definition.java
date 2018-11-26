@@ -1,4 +1,4 @@
-package com.hellyard.cuttlefish.api;
+package com.hellyard.cuttlefish.api.definition;
 
 import java.util.regex.Pattern;
 
