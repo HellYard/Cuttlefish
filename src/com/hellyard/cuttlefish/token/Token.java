@@ -10,11 +10,13 @@ package com.hellyard.cuttlefish.token;
  */
 public class Token {
 
+  private final int lineNumber;
   private final int indentation;
   private final String definition;
   private final String value;
 
-  public Token(int indentation, String definition, String value) {
+  public Token(int lineNumber, int indentation, String definition, String value) {
+    this.lineNumber = lineNumber;
     this.indentation = indentation;
     this.definition = definition;
     this.value = value;

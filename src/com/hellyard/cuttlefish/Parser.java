@@ -1,5 +1,6 @@
-package com.hellyard.cuttlefish.api;
+package com.hellyard.cuttlefish;
 
+import com.hellyard.cuttlefish.api.Definition;
 import com.hellyard.cuttlefish.util.Validation;
 
 import java.io.File;
