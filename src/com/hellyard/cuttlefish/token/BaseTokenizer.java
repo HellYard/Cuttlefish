@@ -28,6 +28,7 @@ public class BaseTokenizer implements Tokenizer {
 
       int lineCount = 1;
       while(scanner.hasNextLine()) {
+        boolean start = true;
         String line = scanner.nextLine();
         final int indentation = line.indexOf(line.trim());
 
@@ -37,8 +38,10 @@ public class BaseTokenizer implements Tokenizer {
             Matcher matcher = definition.getRegex().matcher(line);
             if(matcher.find()) {
 
-              tokens.add(new Token(lineCount, indentation, definition.getName(), matcher.group().trim()));
+              final String tokenValue = (start)? matcher.group().trim() : matcher.group();
+              tokens.add(new Token(lineCount, indentation, definition.getName(), tokenValue));
               line = matcher.replaceFirst("");
+              start = false;
             }
           }
         }
