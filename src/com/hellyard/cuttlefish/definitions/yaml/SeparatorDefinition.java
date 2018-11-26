@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class SeparatorDefinition extends Definition {
   public SeparatorDefinition() {
-    super("yaml_separator", Pattern.compile("[:]"));
+    super("yaml_separator", Pattern.compile("^\\s*:"));
   }
 }

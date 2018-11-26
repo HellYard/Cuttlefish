@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class MapDefinition extends Definition {
   public MapDefinition() {
-    super("yaml_map", Pattern.compile(Pattern.quote("[?]")));
+    super("yaml_map", Pattern.compile(Pattern.quote("^\\s*?")));
   }
 }

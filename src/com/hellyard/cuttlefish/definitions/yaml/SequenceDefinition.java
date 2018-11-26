@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class SequenceDefinition extends Definition {
   public SequenceDefinition() {
-    super("yaml_sequence", Pattern.compile("[-]"));
+    super("yaml_sequence", Pattern.compile("^\\s*-"));
   }
 }

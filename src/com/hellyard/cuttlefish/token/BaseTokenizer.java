@@ -31,13 +31,15 @@ public class BaseTokenizer implements Tokenizer {
         String line = scanner.nextLine();
         final int indentation = line.indexOf(line.trim());
 
-        for(Definition definition : definitions) {
+        while(line.length() > 0) {
+          for(Definition definition : definitions) {
 
-          Matcher matcher = definition.getRegex().matcher(line);
-          if(matcher.find()) {
+            Matcher matcher = definition.getRegex().matcher(line);
+            if(matcher.find()) {
 
-            tokens.add(new Token(lineCount, indentation, definition.getName(), matcher.group().trim()));
-            line = matcher.replaceFirst("");
+              tokens.add(new Token(lineCount, indentation, definition.getName(), matcher.group().trim()));
+              line = matcher.replaceFirst("");
+            }
           }
         }
 

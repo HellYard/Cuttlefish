@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class QuoteDefinition extends Definition {
   public QuoteDefinition() {
-    super("yaml_quote", Pattern.compile("[\"']"));
+    super("yaml_quote", Pattern.compile("^\\s*[\"']"));
   }
 }

@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class LiteralDefinition extends Definition {
   public LiteralDefinition() {
-    super("yaml_literal", Pattern.compile("[a-zA-Z0-9_]"));
+    super("yaml_literal", Pattern.compile("[a-zA-Z0-9_/ .,;₮\\$<>]+"));
   }
 }

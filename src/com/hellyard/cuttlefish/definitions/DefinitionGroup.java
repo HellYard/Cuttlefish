@@ -3,6 +3,7 @@ package com.hellyard.cuttlefish.definitions;
 import com.hellyard.cuttlefish.api.definition.Definition;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 /**
  * Created by creatorfromhell.
@@ -23,6 +24,14 @@ public class DefinitionGroup {
 
   public LinkedHashMap<String, Definition> getDefinitions() {
     return definitions;
+  }
+
+  public LinkedList<Definition> getDefinitionsValues() {
+    return new LinkedList<>(definitions.values());
+  }
+
+  public void addDefinition(Definition definition) {
+    definitions.put(definition.getName(), definition);
   }
 
   public String getName() {
