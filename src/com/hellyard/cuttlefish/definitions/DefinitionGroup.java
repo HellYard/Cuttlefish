@@ -2,8 +2,7 @@ package com.hellyard.cuttlefish.definitions;
 
 import com.hellyard.cuttlefish.api.Definition;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * Created by creatorfromhell.
@@ -15,14 +14,14 @@ import java.util.Map;
  */
 public class DefinitionGroup {
 
-  private Map<String, Definition> definitions = new HashMap<>();
+  private LinkedHashMap<String, Definition> definitions = new LinkedHashMap<>();
   private final String name;
 
   public DefinitionGroup(String name) {
     this.name = name;
   }
 
-  public Map<String, Definition> getDefinitions() {
+  public LinkedHashMap<String, Definition> getDefinitions() {
     return definitions;
   }
 

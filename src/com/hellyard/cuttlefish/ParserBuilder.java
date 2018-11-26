@@ -11,6 +11,7 @@ public class ParserBuilder {
   /**
    * Adds a definition to the parser.
    *
+   * @param group The name of the {@link DefinitionGroup} this definition should be part of.
    * @param definition is a {@link Definition}
    * @return {@link ParserBuilder}
    */
