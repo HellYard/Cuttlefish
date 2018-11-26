@@ -1,6 +1,7 @@
 package com.hellyard.cuttlefish.token;
 
 import com.hellyard.cuttlefish.api.Definition;
+import com.hellyard.cuttlefish.api.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +18,9 @@ import java.util.regex.Matcher;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class Tokenizer {
+public class BaseTokenizer implements Tokenizer {
 
-
-  public static List<Token> tokenize(File file, List<Definition> definitions) {
+  public List<Token> tokenize(File file, List<Definition> definitions) {
     List<Token> tokens = new ArrayList<>();
 
     try(Scanner scanner = new Scanner(file)) {
@@ -43,9 +43,7 @@ public class Tokenizer {
         lineCount++;
       }
     } catch(IOException ignore) {
-
     }
-
     return tokens;
   }
 }
