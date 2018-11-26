@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class CommentDefinition extends Definition {
   public CommentDefinition() {
-    super("yaml_comment", Pattern.compile("[#]"));
+    super("yaml_comment", Pattern.compile("#.*"));
   }
 }

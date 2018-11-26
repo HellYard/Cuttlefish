@@ -22,6 +22,10 @@ public class Token {
     this.value = value;
   }
 
+  public int getLineNumber() {
+    return lineNumber;
+  }
+
   public int getIndentation() {
     return indentation;
   }
