@@ -4,13 +4,19 @@ import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 
 import java.util.LinkedList;
 
-public class YamlNode extends GrammarObject {
+public class YamlNode implements GrammarObject {
+
+  private final YamlNode parent;
+  private final int line;
+  private final String literal;
   private LinkedList<String> comments;
   private String key;
   private LinkedList<String> values;
 
-  public YamlNode(GrammarObject parent, int line, String literal) {
-    super(parent, line, literal);
+  public YamlNode(YamlNode parent, int line, String literal) {
+    this.parent = parent;
+    this.line = line;
+    this.literal = literal;
   }
 
   public LinkedList<String> getComments() {
@@ -36,4 +42,19 @@ public class YamlNode extends GrammarObject {
   public void setValues(LinkedList<String> values) {
     this.values = values;
   }
+
+    @Override
+    public YamlNode getParent() {
+        return parent;
+    }
+
+    @Override
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public String getLiteral() {
+        return literal;
+    }
 }
