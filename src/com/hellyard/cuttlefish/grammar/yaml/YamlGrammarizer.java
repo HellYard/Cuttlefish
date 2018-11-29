@@ -12,13 +12,14 @@ import java.util.LinkedList;
 public class YamlGrammarizer implements Grammarizer {
   @Override
   public String name() {
-    return "YAML Ain't Markup Language";
+    return "YAML";
   }
 
   @Override
   public LinkedList<? extends GrammarObject> grammarize(TokenList tokens) throws GrammarException {
     LinkedList<YamlNode> nodes = new LinkedList<>();
     LinkedList<String> comments = new LinkedList<>();
+    LinkedList<String> values = new LinkedList<>();
     StringBuilder parts = new StringBuilder();
     boolean firstLiteral = false;
 
@@ -35,12 +36,23 @@ public class YamlGrammarizer implements Grammarizer {
         topElement = true;
       }
 
+      if(current.getLineNumber() > previous.getLineNumber()) {
+        if(previous.getDefinition().equalsIgnoreCase("yaml_sequence")) {
+
+          throw new GrammarException(current.getLineNumber(), current.getValue());
+        }
+      }
+
       switch (current.getDefinition()) {
+
         // Yaml comment gets stored into list and next element.
         case "yaml_comment": {
           comments.add(current.getValue());
           continue;
         }
+
+        case "yaml_sequence":
+
 
         // Separator comes after the firstLiteral so it just adds itself to the parts.
         case "yaml_separator": {
@@ -59,7 +71,15 @@ public class YamlGrammarizer implements Grammarizer {
             continue;
           }
 
-          if(it.peek().getLineNumber() > current.getLineNumber() &&
+          if(!topElement) {
+            if(previous.getDefinition().equalsIgnoreCase("yaml_separator")
+                && previous.getLineNumber() == current.getLineNumber() || previous.getLineNumber() == current.getLineNumber()
+                && previous.getDefinition().equalsIgnoreCase("yaml_sequence")) {
+              values.add(current.getValue());
+            }
+          }
+
+          if(!it.hasNext() || it.peek().getLineNumber() > current.getLineNumber() &&
               !it.peek().getDefinition().equalsIgnoreCase("yaml_sequence") ) {
             elementDone = true;
           }
@@ -79,9 +99,11 @@ public class YamlGrammarizer implements Grammarizer {
 
         YamlNode node = new YamlNode(parent, current.getLineNumber(), parts.toString());
         node.setComments(comments);
+        node.setValues(values);
         nodes.add(node);
         parts.setLength(0);
         comments.clear();
+        values.clear();
       }
     }
     return nodes;
