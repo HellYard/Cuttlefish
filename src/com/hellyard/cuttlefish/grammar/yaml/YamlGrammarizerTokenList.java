@@ -4,52 +4,51 @@ import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 import com.hellyard.cuttlefish.api.grammar.Grammarizer;
 import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.exception.GrammarException;
+import com.hellyard.cuttlefish.iterator.TokenIterator;
+import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.util.LinkedList;
-import java.util.ListIterator;
 
-public class YamlGrammarizer implements Grammarizer {
+public class YamlGrammarizerTokenList implements Grammarizer {
   @Override
   public String name() {
     return "YAML";
   }
 
   @Override
-  public LinkedList<? extends GrammarObject> grammarize(final LinkedList<Token> tokens) throws GrammarException {
-    /*System.out.println("Tokens: " + tokens.size());
-    for(int i = 0; i < tokens.size(); i++) {
-      System.out.println(tokens.get(i).getDefinition());
-      System.out.println(tokens.get(i).getValue());
-    }*/
+  public LinkedList<? extends GrammarObject> grammarize(LinkedList<Token> tokens) throws GrammarException {
+    return null;
+  }
+
+  public LinkedList<? extends GrammarObject> grammarize(TokenList tokens) throws GrammarException {
     LinkedList<YamlNode> nodes = new LinkedList<>();
     LinkedList<String> comments = new LinkedList<>();
     LinkedList<String> values = new LinkedList<>();
     StringBuilder parts = new StringBuilder();
     boolean firstLiteral = false;
     boolean elementDone = false;
-    boolean topElement = false;
 
-    for(ListIterator<Token> it = tokens.listIterator(); it.hasNext();) {
+    TokenIterator it = tokens.iterator();
+    while(it.hasNext()) {
       Token current = it.next();
       Token previous = null;
+      boolean topElement = false;
 
       if (it.hasPrevious()) {
         previous = it.previous();
       }
 
-      //System.out.println("Previous: " + (previous == null));
+      System.out.println("Previous: " + (previous == null));
       if (previous == null) {
         topElement = true;
       }
 
-      /*System.out.println("Tokens: " + tokens.size());
-      System.out.println("Token Index: " + i);
       System.out.println("Token Line: " + current.getLineNumber());
       System.out.println("Token Indent: " + current.getIndentation());
       System.out.println("Token Def: " + current.getDefinition());
-      System.out.println("Token Value: " + current.getValue());*/
+      System.out.println("Token Value: " + current.getValue());
 
-      if(previous != null && current.getLineNumber() > previous.getLineNumber()) {
+      if(current.getLineNumber() > previous.getLineNumber()) {
         if(previous.getDefinition().equalsIgnoreCase("yaml_sequence")) {
 
           throw new GrammarException(current.getLineNumber(), current.getValue());
@@ -92,17 +91,8 @@ public class YamlGrammarizer implements Grammarizer {
             }
           }
 
-          if(it.hasNext()) {
-            final Token next = tokens.get(it.nextIndex());
-            //System.out.println("Token Line: " + next.getLineNumber());
-            //System.out.println("Token Indent: " + next.getIndentation());
-            //System.out.println("Token Def: " + next.getDefinition());
-            //System.out.println("Token Value: " + next.getValue());
-            if(next.getLineNumber() > current.getLineNumber() &&
-                !next.getDefinition().equalsIgnoreCase("yaml_sequence") ) {
-              elementDone = true;
-            }
-          } else {
+          if(!it.hasNext() || it.peek().getLineNumber() > current.getLineNumber() &&
+              !it.peek().getDefinition().equalsIgnoreCase("yaml_sequence") ) {
             elementDone = true;
           }
           break;

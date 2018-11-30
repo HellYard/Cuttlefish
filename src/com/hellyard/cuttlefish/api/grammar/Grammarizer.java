@@ -1,7 +1,7 @@
 package com.hellyard.cuttlefish.api.grammar;
 
+import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.exception.GrammarException;
-import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.util.LinkedList;
 
@@ -17,5 +17,5 @@ public interface Grammarizer {
 
     String name();
 
-    LinkedList<? extends GrammarObject> grammarize(TokenList tokens) throws GrammarException;
+    LinkedList<? extends GrammarObject> grammarize(LinkedList<Token> tokens) throws GrammarException;
 }

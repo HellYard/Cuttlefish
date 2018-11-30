@@ -1,12 +1,12 @@
 package com.hellyard.cuttlefish.token;
 
 import com.hellyard.cuttlefish.api.definition.Definition;
-import com.hellyard.cuttlefish.api.token.Tokenizer;
 import com.hellyard.cuttlefish.api.token.Token;
+import com.hellyard.cuttlefish.api.token.Tokenizer;
+import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -21,8 +21,8 @@ import java.util.regex.Matcher;
  */
 public class BaseTokenizer implements Tokenizer {
 
-  public LinkedList<Token> tokenize(File file, List<Definition> definitions) {
-    LinkedList<Token> tokens = new LinkedList<>();
+  public TokenList tokenize(File file, List<Definition> definitions) {
+    TokenList tokens = new TokenList();
 
     try(Scanner scanner = new Scanner(file)) {
 
