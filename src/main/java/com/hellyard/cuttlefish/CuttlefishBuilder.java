@@ -29,7 +29,7 @@ public class CuttlefishBuilder {
       definitionGroup.addDefinition(new CommentDefinition(),
               new ListStartDefinition(),
               new ListSeparatorDefinition(),
-              new ListStartDefinition(),
+              new ListEndDefinition(),
               new LiteralDefinition(),
               new MapDefinition(),
               new QuoteDefinition(),

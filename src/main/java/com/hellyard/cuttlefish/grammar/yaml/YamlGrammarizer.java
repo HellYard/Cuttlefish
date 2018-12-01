@@ -53,6 +53,7 @@ public class YamlGrammarizer implements Grammarizer {
       System.out.println("Token Indent: " + current.getIndentation());
       System.out.println("Token Def: " + current.getDefinition());
       System.out.println("Token Value: " + current.getValue());
+      System.out.println("-----");
 
       if(previous != null) {
         System.out.println("Tokens: " + tokens.size());
@@ -60,6 +61,7 @@ public class YamlGrammarizer implements Grammarizer {
         System.out.println("Previous Indent: " + previous.getIndentation());
         System.out.println("Previous Def: " + previous.getDefinition());
         System.out.println("Previous Value: " + previous.getValue());
+        System.out.println("-----");
       }
 
       if(previous != null && current.getLineNumber() > previous.getLineNumber()) {
