@@ -7,6 +7,7 @@ import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -21,7 +22,7 @@ import java.util.regex.Matcher;
  */
 public class BaseTokenizer implements Tokenizer {
 
-  public TokenList tokenize(File file, List<Definition> definitions) {
+  public LinkedList<Token> tokenize(File file, List<Definition> definitions) {
     TokenList tokens = new TokenList();
 
     try(Scanner scanner = new Scanner(file)) {

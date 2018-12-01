@@ -29,7 +29,16 @@ public class TokenIterator implements ListIterator<Token> {
   public Token peek() {
     try {
 
-      return tokens.get(next + 1);
+      return tokens.get(nextIndex());
+    } catch(IndexOutOfBoundsException e) {
+      throw new ConcurrentModificationException();
+    }
+  }
+
+  public Token peekPrevious() {
+    try {
+
+      return tokens.get(previousIndex());
     } catch(IndexOutOfBoundsException e) {
       throw new ConcurrentModificationException();
     }

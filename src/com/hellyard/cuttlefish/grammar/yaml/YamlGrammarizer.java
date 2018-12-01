@@ -30,11 +30,17 @@ public class YamlGrammarizer implements Grammarizer {
     boolean topElement = false;
 
     for(ListIterator<Token> it = tokens.listIterator(); it.hasNext();) {
-      Token current = it.next();
       Token previous = null;
 
       if (it.hasPrevious()) {
-        previous = it.previous();
+        previous = tokens.get(it.previousIndex());
+      }
+
+      Token current = it.next();
+      Token next = null;
+
+      if(it.hasNext()) {
+        next = tokens.get(it.nextIndex());
       }
 
       //System.out.println("Previous: " + (previous == null));
@@ -42,17 +48,26 @@ public class YamlGrammarizer implements Grammarizer {
         topElement = true;
       }
 
-      /*System.out.println("Tokens: " + tokens.size());
-      System.out.println("Token Index: " + i);
+      System.out.println("Tokens: " + tokens.size());
       System.out.println("Token Line: " + current.getLineNumber());
       System.out.println("Token Indent: " + current.getIndentation());
       System.out.println("Token Def: " + current.getDefinition());
-      System.out.println("Token Value: " + current.getValue());*/
+      System.out.println("Token Value: " + current.getValue());
+
+      if(previous != null) {
+        System.out.println("Tokens: " + tokens.size());
+        System.out.println("Previous Line: " + previous.getLineNumber());
+        System.out.println("Previous Indent: " + previous.getIndentation());
+        System.out.println("Previous Def: " + previous.getDefinition());
+        System.out.println("Previous Value: " + previous.getValue());
+      }
 
       if(previous != null && current.getLineNumber() > previous.getLineNumber()) {
         if(previous.getDefinition().equalsIgnoreCase("yaml_sequence")) {
 
-          throw new GrammarException(current.getLineNumber(), current.getValue());
+          if(next == null || !next.getDefinition().equalsIgnoreCase("yaml_separator")) {
+            throw new GrammarException(current.getLineNumber(), current.getValue());
+          }
         }
       }
 
@@ -92,8 +107,7 @@ public class YamlGrammarizer implements Grammarizer {
             }
           }
 
-          if(it.hasNext()) {
-            final Token next = tokens.get(it.nextIndex());
+          if(next != null) {
             //System.out.println("Token Line: " + next.getLineNumber());
             //System.out.println("Token Indent: " + next.getIndentation());
             //System.out.println("Token Def: " + next.getDefinition());
@@ -111,11 +125,13 @@ public class YamlGrammarizer implements Grammarizer {
 
       if(elementDone) {
         YamlNode parent = null;
-        if(previous != null) {
+        if(nodes.size() > 0 && previous != null) {
           if(previous.getIndentation() > current.getIndentation()) {
-
+            parent = nodes.getLast().getParent();
           } else if(previous.getIndentation() == current.getIndentation()) {
             parent = nodes.getLast().getParent();
+          } else {
+            parent = nodes.getLast();
           }
         }
 
