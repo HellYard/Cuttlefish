@@ -4,7 +4,7 @@ import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by creatorfromhell.
@@ -16,5 +16,7 @@ import java.util.List;
  */
 public interface Tokenizer {
 
-  TokenList tokenize(File file, List<Definition> definitions);
+  String name();
+
+  TokenList tokenize(File file, LinkedList<Definition> definitions);
 }

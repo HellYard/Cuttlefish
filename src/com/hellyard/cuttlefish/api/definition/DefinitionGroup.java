@@ -1,22 +1,20 @@
-package com.hellyard.cuttlefish.definitions;
-
-import com.hellyard.cuttlefish.api.definition.Definition;
+package com.hellyard.cuttlefish.api.definition;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 /**
  * Created by creatorfromhell.
- *
+ * <p>
  * Cuttlefish YAML Parser
- *
+ * <p>
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
 public class DefinitionGroup {
 
-  private LinkedHashMap<String, Definition> definitions = new LinkedHashMap<>();
   private final String name;
+  private LinkedHashMap<String, Definition> definitions = new LinkedHashMap<>();
 
   public DefinitionGroup(String name) {
     this.name = name;
@@ -30,8 +28,10 @@ public class DefinitionGroup {
     return new LinkedList<>(definitions.values());
   }
 
-  public void addDefinition(Definition definition) {
-    definitions.put(definition.getName(), definition);
+  public void addDefinition(Definition... definitions) {
+    for(Definition definition : definitions) {
+      this.definitions.put(definition.getName(), definition);
+    }
   }
 
   public String getName() {

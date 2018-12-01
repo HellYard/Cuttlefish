@@ -1,4 +1,4 @@
-package com.hellyard.cuttlefish.token;
+package com.hellyard.cuttlefish.token.yaml;
 
 import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.api.token.Token;
@@ -7,7 +7,7 @@ import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -19,9 +19,14 @@ import java.util.regex.Matcher;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class BaseTokenizer implements Tokenizer {
+public class YamlTokenizer implements Tokenizer {
 
-  public TokenList tokenize(File file, List<Definition> definitions) {
+  @Override
+  public String name() {
+    return "YAML";
+  }
+
+  public TokenList tokenize(File file, LinkedList<Definition> definitions) {
     TokenList tokens = new TokenList();
 
     try(Scanner scanner = new Scanner(file)) {
