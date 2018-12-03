@@ -7,54 +7,63 @@ import java.util.LinkedList;
 public class YamlNode implements GrammarObject {
 
   private final YamlNode parent;
-  private final int line;
-  private final String literal;
+  private final int lineNumber;
+  private final String line;
   private LinkedList<String> comments;
   private String key;
   private LinkedList<String> values;
 
-  public YamlNode(YamlNode parent, int line, String literal) {
+  public YamlNode(YamlNode parent, int lineNumber, String line, LinkedList<String> comments, String key, LinkedList<String> values) {
     this.parent = parent;
+    this.lineNumber = lineNumber;
     this.line = line;
-    this.literal = literal;
+    this.comments = comments;
+    this.key = key;
+    this.values = values;
   }
 
   public LinkedList<String> getComments() {
     return comments;
   }
 
-  public String getKey() {
-    return key;
-  }
-
-  public LinkedList<String> getValues() {
-    return values;
-  }
-
   public void setComments(LinkedList<String> comments) {
     this.comments = comments;
+  }
+
+  public String getKey() {
+    return key;
   }
 
   public void setKey(String key) {
     this.key = key;
   }
 
+  public LinkedList<String> getValues() {
+    return values;
+  }
+
   public void setValues(LinkedList<String> values) {
     this.values = values;
   }
 
-    @Override
-    public YamlNode getParent() {
-        return parent;
-    }
+  @Override
+  public YamlNode getParent() {
+    return parent;
+  }
 
-    @Override
-    public int getLine() {
-        return line;
-    }
+  @Override
+  public int getLineNumber() {
+    return lineNumber;
+  }
 
-    @Override
-    public String getLiteral() {
-        return literal;
-    }
+  @Override
+  public String getLine() {
+    return line;
+  }
+
+  @Override
+  public String toString() {
+    System.out.println(key);
+    return key + values.toString();
+  }
 }

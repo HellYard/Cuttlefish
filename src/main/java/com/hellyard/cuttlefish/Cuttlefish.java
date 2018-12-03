@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-class Cuttlefish {
+public class Cuttlefish {
   private HashMap<String, Definition> definitionHashMap;
   private File file;
   private Grammarizer grammarizer;

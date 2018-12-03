@@ -10,6 +10,6 @@ package com.hellyard.cuttlefish.api.grammar;
  */
 public interface GrammarObject {
   GrammarObject getParent();
-  int getLine();
-  String getLiteral();
+  int getLineNumber();
+  String getLine();
 }

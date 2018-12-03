@@ -1,9 +1,9 @@
 package com.hellyard.cuttlefish;
 
 import com.hellyard.cuttlefish.api.definition.Definition;
+import com.hellyard.cuttlefish.api.definition.DefinitionGroup;
 import com.hellyard.cuttlefish.api.grammar.Grammarizer;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
-import com.hellyard.cuttlefish.api.definition.DefinitionGroup;
 import com.hellyard.cuttlefish.definitions.yaml.*;
 import com.hellyard.cuttlefish.grammar.yaml.YamlGrammarizer;
 import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
@@ -12,10 +12,10 @@ import java.io.File;
 import java.util.LinkedHashMap;
 
 public class CuttlefishBuilder {
+  LinkedHashMap<String, Definition> definitionsMap = new LinkedHashMap<>();
   private File file;
   private Tokenizer tokenizer;
   private Grammarizer grammarizer;
-  LinkedHashMap<String, Definition> definitionsMap = new LinkedHashMap<>();
 
   public CuttlefishBuilder(File file, String presetType) {
     if (file == null) {
@@ -26,7 +26,8 @@ public class CuttlefishBuilder {
       this.tokenizer = new YamlTokenizer();
       this.grammarizer = new YamlGrammarizer();
       DefinitionGroup definitionGroup = new DefinitionGroup("yaml");
-      definitionGroup.addDefinition(new CommentDefinition(),
+      definitionGroup.addDefinition(
+              new CommentDefinition(),
               new ListStartDefinition(),
               new ListSeparatorDefinition(),
               new ListEndDefinition(),
