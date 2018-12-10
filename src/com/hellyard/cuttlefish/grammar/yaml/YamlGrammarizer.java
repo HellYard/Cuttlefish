@@ -61,13 +61,11 @@ public class YamlGrammarizer implements Grammarizer {
       }
 
       if(current.getDefinition().equalsIgnoreCase("yaml_sequence")) {
-        if(previous == null || sequence || next == null || !next.getDefinition().equalsIgnoreCase("yaml_literal"))
+        if(previous == null || sequence || next == null || !next.getDefinition().equalsIgnoreCase("yaml_literal")) {
           throw new GrammarException(current.getLineNumber(), line.toString() + current.getValue());
-        else if(previous.getLineNumber() == current.getLineNumber()) {
-          final int size = values.size();
-          System.out.println("Value: " + values.get(size));
-          values.add(size - 1, values.getLast() + "-");
-        } else sequence = true;
+        } else {
+          sequence = true;
+        }
       }
 
       if (current.getDefinition().equals("yaml_separator")) {
@@ -83,6 +81,7 @@ public class YamlGrammarizer implements Grammarizer {
         if(sequence) {
           sequence = false;
           values.add(current.getValue());
+          continue;
         } else if (key != null) {
           YamlNode parent = null;
           if(nodes.size() > 0) {

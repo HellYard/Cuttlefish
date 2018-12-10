@@ -28,11 +28,11 @@ public class CuttlefishBuilder {
       DefinitionGroup definitionGroup = new DefinitionGroup("yaml");
       definitionGroup.addDefinition(
               new CommentDefinition(),
+              new SequenceDefinition(),
               new LiteralDefinition(),
               new MapDefinition(),
               new QuoteDefinition(),
-              new SeparatorDefinition(),
-              new SequenceDefinition());
+              new SeparatorDefinition());
       this.definitionsMap.putAll(definitionGroup.getDefinitions());
     }
   }
