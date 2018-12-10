@@ -14,7 +14,7 @@ public class YamlNode implements GrammarObject {
   private String key;
   private LinkedList<String> values;
 
-  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, LinkedList<String> comments, String key, LinkedList<String> values) {
+  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, LinkedList<String> values) {
     this.parent = parent;
     this.indentation = indentation;
     this.lineNumber = lineNumber;

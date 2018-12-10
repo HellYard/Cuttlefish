@@ -19,7 +19,7 @@ public class YamlGrammarizer implements Grammarizer {
   @Override
   public LinkedList<? extends GrammarObject> grammarize(final LinkedList<Token> tokens) throws GrammarException {
     LinkedList<String> comments = new LinkedList<>();
-    String key = null;
+    Token key = null;
     LinkedList<String> values = new LinkedList<>();
     StringBuilder line = new StringBuilder();
     boolean inList = false;
@@ -56,7 +56,21 @@ public class YamlGrammarizer implements Grammarizer {
       System.out.println("--------------");
       // Filter out nodes
       if (current.getDefinition().equals("yaml_comment") || current.getDefinition().equals("empty_line")) {
-        comments.add(current.getValue());
+        if(previous != null && key != null) {
+          YamlNode node = new YamlNode(getParent(nodes, previous), key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), values);
+          nodes.add(node);
+          System.out.println("Added node: " + node.toString());
+          comments = new LinkedList<>();
+          key = null;
+          line.setLength(0);
+          values = new LinkedList<>();
+        }
+
+        if(current.getDefinition().equalsIgnoreCase("empty_line")) {
+          comments.add(System.lineSeparator());
+        } else {
+          comments.add(current.getValue());
+        }
         continue;
       }
 
@@ -83,34 +97,19 @@ public class YamlGrammarizer implements Grammarizer {
           values.add(current.getValue());
           continue;
         } else if (key != null) {
-          YamlNode parent = null;
-          if(nodes.size() > 0) {
-            if(nodes.getLast().getIndentation() == previous.getIndentation()) {
-              parent = nodes.getLast().getParent();
-            } else if(nodes.getLast().getIndentation() < previous.getIndentation()) {
-              parent = nodes.getLast();
-            } else {
-              YamlNode node = nodes.getLast();
-              while((node = node.getParent()) != null) {
-                if(node.getIndentation() < previous.getIndentation()) {
-                  parent = node;
-                  break;
-                }
-              }
-            }
-          }
+          YamlNode parent = getParent(nodes, previous);
 
           if(previous != null && previous.getLineNumber() < current.getLineNumber()) {
 
             System.out.println("In new if clause fucker");
-            YamlNode node = new YamlNode(parent, previous.getIndentation(), previous.getLineNumber(), line.toString(), comments, key, values);
+            YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), comments, key.getValue(), values);
             nodes.add(node);
             System.out.println("Added node: " + node.toString());
             comments = new LinkedList<>();
             values = new LinkedList<>();
             line.setLength(0);
 
-            key = current.getValue();
+            key = current;
             line.append(current.getValue());
             continue;
           }
@@ -120,7 +119,7 @@ public class YamlGrammarizer implements Grammarizer {
           } else {
             values.add(current.getValue());
           }
-          YamlNode node = new YamlNode(parent, current.getIndentation(), current.getLineNumber(), line.toString(), comments, key, values);
+          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), values);
           nodes.add(node);
           System.out.println("Added node: " + node.toString());
           comments = new LinkedList<>();
@@ -128,12 +127,32 @@ public class YamlGrammarizer implements Grammarizer {
           line.setLength(0);
           values = new LinkedList<>();
         } else {
-          key = current.getValue();
+          key = current;
           line.append(current.getValue());
         }
       }
 
     }
     return nodes;
+  }
+
+  private YamlNode getParent(LinkedList<YamlNode> nodes, Token previous) {
+    YamlNode parent = null;
+    if(nodes.size() > 0) {
+      if(nodes.getLast().getIndentation() == previous.getIndentation()) {
+        parent = nodes.getLast().getParent();
+      } else if(nodes.getLast().getIndentation() < previous.getIndentation()) {
+        parent = nodes.getLast();
+      } else {
+        YamlNode node = nodes.getLast();
+        while((node = node.getParent()) != null) {
+          if(node.getIndentation() < previous.getIndentation()) {
+            parent = node;
+            break;
+          }
+        }
+      }
+    }
+    return parent;
   }
 }

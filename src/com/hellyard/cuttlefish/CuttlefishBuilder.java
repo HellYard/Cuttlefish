@@ -31,7 +31,6 @@ public class CuttlefishBuilder {
               new SequenceDefinition(),
               new LiteralDefinition(),
               new MapDefinition(),
-              new QuoteDefinition(),
               new SeparatorDefinition());
       this.definitionsMap.putAll(definitionGroup.getDefinitions());
     }

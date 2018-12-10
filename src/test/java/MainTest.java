@@ -1,8 +1,10 @@
 package test.java;
 
 import com.hellyard.cuttlefish.CuttlefishBuilder;
+import com.hellyard.cuttlefish.composer.yaml.YamlComposer;
 import com.hellyard.cuttlefish.grammar.yaml.YamlNode;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
@@ -25,5 +27,8 @@ public class MainTest {
       System.out.println("-------------------------");
       System.out.println("-------------------------");
     }
+
+    File file = new File("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\testwrite.yml");
+    new YamlComposer().compose(file, nodes);
   }
 }
