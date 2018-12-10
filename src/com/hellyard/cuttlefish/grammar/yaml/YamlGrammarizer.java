@@ -84,11 +84,27 @@ public class YamlGrammarizer implements Grammarizer {
           sequence = false;
           values.add(current.getValue());
         } else if (key != null) {
-          System.out.println("Previous line: " + previous.getLineNumber());
-          System.out.println("Current line: " + current.getLineNumber());
+          YamlNode parent = null;
+          if(nodes.size() > 0) {
+            if(nodes.getLast().getIndentation() == previous.getIndentation()) {
+              parent = nodes.getLast().getParent();
+            } else if(nodes.getLast().getIndentation() < previous.getIndentation()) {
+              parent = nodes.getLast();
+            } else {
+              YamlNode node = nodes.getLast();
+              while((node = node.getParent()) != null) {
+                if(node.getIndentation() < previous.getIndentation()) {
+                  parent = node;
+                  break;
+                }
+              }
+            }
+          }
+
           if(previous != null && previous.getLineNumber() < current.getLineNumber()) {
+
             System.out.println("In new if clause fucker");
-            YamlNode node = new YamlNode(null, previous.getLineNumber(), line.toString(), comments, key, values);
+            YamlNode node = new YamlNode(parent, previous.getIndentation(), previous.getLineNumber(), line.toString(), comments, key, values);
             nodes.add(node);
             System.out.println("Added node: " + node.toString());
             comments = new LinkedList<>();
@@ -105,7 +121,7 @@ public class YamlGrammarizer implements Grammarizer {
           } else {
             values.add(current.getValue());
           }
-          YamlNode node = new YamlNode(null, current.getLineNumber(), line.toString(), comments, key, values);
+          YamlNode node = new YamlNode(parent, current.getIndentation(), current.getLineNumber(), line.toString(), comments, key, values);
           nodes.add(node);
           System.out.println("Added node: " + node.toString());
           comments = new LinkedList<>();
