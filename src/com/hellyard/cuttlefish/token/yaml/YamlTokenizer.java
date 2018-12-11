@@ -35,6 +35,7 @@ public class YamlTokenizer implements Tokenizer {
       while (scanner.hasNextLine()) {
         boolean start = true;
         String line = scanner.nextLine();
+        line = line.replaceAll("\\t", "    ");
         final int indentation = line.indexOf(line.trim());
 
         line = line.trim();

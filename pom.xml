@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hellyard</groupId>
     <artifactId>Cuttlefish</artifactId>
-    <version>0.0.0.1</version>
+    <version>0.0.1.1</version>
     <packaging>jar</packaging>
     <name>Cuttlefish</name>
     <properties>
@@ -56,4 +56,12 @@
             <timezone>America/New_York</timezone>
         </developer>
     </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-theneweconomy-java</id>
+            <name>theneweconomy-java</name>
+            <url>https://api.bintray.com/maven/theneweconomy/java/Cuttlefish/;publish=1</url>
+        </repository>
+    </distributionManagement>
 </project>
