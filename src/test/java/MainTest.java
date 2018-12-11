@@ -14,6 +14,7 @@ public class MainTest {
     for(YamlNode node : nodes) {
       System.out.println("-------------------------");
       System.out.println("-------------------------");
+      System.out.println("Node String: " + node.getNode());
       System.out.println("Key: " + node.getKey());
       System.out.println("Line #: " + node.getLineNumber());
       System.out.println("Values: " + String.join(",", node.getValues()));

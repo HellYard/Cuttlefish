@@ -12,15 +12,17 @@ public class YamlNode implements GrammarObject {
   private final String line;
   private LinkedList<String> comments;
   private String key;
+  private final String node;
   private LinkedList<String> values;
 
-  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, LinkedList<String> values) {
+  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, LinkedList<String> values) {
     this.parent = parent;
     this.indentation = indentation;
     this.lineNumber = lineNumber;
     this.line = line;
     this.comments = comments;
     this.key = key;
+    this.node = node;
     this.values = values;
   }
 
@@ -42,6 +44,10 @@ public class YamlNode implements GrammarObject {
 
   public void setKey(String key) {
     this.key = key;
+  }
+
+  public String getNode() {
+    return node;
   }
 
   public LinkedList<String> getValues() {

@@ -57,7 +57,9 @@ public class YamlGrammarizer implements Grammarizer {
       // Filter out nodes
       if (current.getDefinition().equals("yaml_comment") || current.getDefinition().equals("empty_line")) {
         if(previous != null && key != null) {
-          YamlNode node = new YamlNode(getParent(nodes, previous), key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), values);
+          final YamlNode parent = getParent(nodes, previous);
+          final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
+          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
           nodes.add(node);
           //System.out.println("Added node: " + node.toString());
           comments = new LinkedList<>();
@@ -98,11 +100,12 @@ public class YamlGrammarizer implements Grammarizer {
           continue;
         } else if (key != null) {
           YamlNode parent = getParent(nodes, previous);
+          final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
 
           if(previous != null && previous.getLineNumber() < current.getLineNumber()) {
 
             //System.out.println("In new if clause fucker");
-            YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), comments, key.getValue(), values);
+            YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
             nodes.add(node);
             //System.out.println("Added node: " + node.toString());
             comments = new LinkedList<>();
@@ -119,7 +122,7 @@ public class YamlGrammarizer implements Grammarizer {
           } else {
             values.add(current.getValue());
           }
-          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), values);
+          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
           nodes.add(node);
           //System.out.println("Added node: " + node.toString());
           comments = new LinkedList<>();
