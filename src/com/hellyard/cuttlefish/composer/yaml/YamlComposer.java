@@ -37,16 +37,38 @@ public class YamlComposer implements Composer {
 
       for(YamlNode node : nodes) {
         final String indent = (node.getIndentation() > 0)? String.format("%1$" + node.getIndentation() + "s", "") : "";
-        writer.write(indent + String.join(System.lineSeparator() + indent, node.getComments()));
+        for(int i = 0; i < node.getComments().size(); i++) {
+          if(i > 0) writer.newLine();
+
+          final String comment = node.getComments().get(i);
+          if(comment.trim().equalsIgnoreCase("")) {
+            writer.newLine();
+          } else {
+            writer.write(indent);
+            if(!comment.startsWith("#")) {
+              writer.write("#");
+            }
+            writer.write(comment);
+          }
+        }
         writer.newLine();
         writer.write(indent + node.getKey() + ":");
 
         if(node.getValues().size() > 0) {
           if(node.getValues().size() > 1) {
             writer.newLine();
-            writer.write(indent + "-" + String.join(System.lineSeparator() + indent + "-", node.getValues()));
+            for(int i = 0; i < node.getValues().size(); i++) {
+              if(i > 0) writer.newLine();
+
+              final String value = node.getValues().get(i);
+              writer.write(indent + "-");
+              if(!value.startsWith(" ")) writer.write(" ");
+              writer.write(value);
+            }
           } else {
-            writer.write(node.getValues().getFirst());
+            final String value = node.getValues().getFirst();
+            if(!value.startsWith(" ")) writer.write(" ");
+            writer.write(value);
           }
         }
       }

@@ -29,6 +29,7 @@ public class CuttlefishBuilder {
       definitionGroup.addDefinition(
               new CommentDefinition(),
               new SequenceDefinition(),
+              new QuoteDefinition(),
               new LiteralDefinition(),
               new MapDefinition(),
               new SeparatorDefinition());

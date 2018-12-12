@@ -22,7 +22,9 @@ public class YamlGrammarizer implements Grammarizer {
     Token key = null;
     LinkedList<String> values = new LinkedList<>();
     StringBuilder line = new StringBuilder();
-    boolean inList = false;
+    StringBuilder quotedValue = new StringBuilder();
+    boolean inQuote = false;
+    String quoteChar = "";
     boolean sequence = false;
     boolean skip = false;
 
@@ -73,6 +75,25 @@ public class YamlGrammarizer implements Grammarizer {
         } else {
           comments.add(current.getValue());
         }
+        continue;
+      }
+
+      if(current.getDefinition().equalsIgnoreCase("yaml_quote")) {
+        if(inQuote && current.getValue().trim().equalsIgnoreCase(quoteChar.trim())) {
+          values.add(quotedValue.toString());
+          inQuote = false;
+          quoteChar = "";
+          quotedValue.setLength(0);
+        } else if(!inQuote) {
+          inQuote = true;
+          quoteChar = current.getValue();
+        }
+        continue;
+      }
+
+      if(inQuote) {
+        line.append(current.getValue());
+        quotedValue.append(current.getValue());
         continue;
       }
 
