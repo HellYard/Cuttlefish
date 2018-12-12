@@ -78,4 +78,17 @@ public class YamlNode implements GrammarObject {
     System.out.println(key);
     return key + values.toString();
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if(obj == this) return true;
+    if(!(obj instanceof YamlNode)) return false;
+
+    return node.equalsIgnoreCase(((YamlNode)obj).node);
+  }
+
+  @Override
+  public int hashCode() {
+    return node.hashCode();
+  }
 }
