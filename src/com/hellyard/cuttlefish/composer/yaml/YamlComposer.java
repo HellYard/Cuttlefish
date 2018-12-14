@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.util.LinkedList;
 
 /**
@@ -61,14 +62,20 @@ public class YamlComposer implements Composer {
               if(i > 0) writer.newLine();
 
               final String value = node.getValues().get(i);
+              final boolean literal = isLiteral(value);
               writer.write(indent + "-");
               if(!value.startsWith(" ")) writer.write(" ");
+              if(literal) writer.write("\"");
               writer.write(value);
+              if(literal) writer.write("\"");
             }
           } else {
             final String value = node.getValues().getFirst();
             if(!value.startsWith(" ")) writer.write(" ");
+            final boolean literal = isLiteral(value);
+            if(literal) writer.write("\"");
             writer.write(value);
+            if(literal) writer.write("\"");
           }
         }
       }
@@ -76,5 +83,15 @@ public class YamlComposer implements Composer {
       return false;
     }
     return true;
+  }
+
+  public boolean isLiteral(String str) {
+    if(str.trim().equalsIgnoreCase("false") || str.trim().equalsIgnoreCase("true")) return false;
+    try {
+      new BigDecimal(str);
+      return false;
+    } catch(NumberFormatException ignore) {
+      return true;
+    }
   }
 }

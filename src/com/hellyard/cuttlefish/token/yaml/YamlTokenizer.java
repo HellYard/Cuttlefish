@@ -3,9 +3,9 @@ package com.hellyard.cuttlefish.token.yaml;
 import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
-import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -26,10 +26,11 @@ public class YamlTokenizer implements Tokenizer {
     return "YAML";
   }
 
-  public TokenList tokenize(File file, LinkedList<Definition> definitions) {
-    TokenList tokens = new TokenList();
+  public LinkedList<Token> tokenize(File file, LinkedList<Definition> definitions) {
+    LinkedList<Token> tokens = new LinkedList<>();
 
-    try (Scanner scanner = new Scanner(file)) {
+    try (FileInputStream stream = new FileInputStream(file);
+         Scanner scanner = new Scanner(stream)) {
 
       int lineCount = 1;
       while (scanner.hasNextLine()) {
@@ -58,7 +59,8 @@ public class YamlTokenizer implements Tokenizer {
 
         lineCount++;
       }
-    } catch (IOException ignore) {
+    } catch(IOException ignore) {
+      return tokens;
     }
     return tokens;
   }

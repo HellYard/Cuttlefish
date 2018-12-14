@@ -3,9 +3,9 @@ package com.hellyard.cuttlefish;
 import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 import com.hellyard.cuttlefish.api.grammar.Grammarizer;
+import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
 import com.hellyard.cuttlefish.exception.GrammarException;
-import com.hellyard.cuttlefish.iterator.TokenList;
 
 import java.io.File;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class Cuttlefish {
   private File file;
   private Grammarizer grammarizer;
   private Tokenizer tokenizer;
-  private TokenList tokenList;
+  private LinkedList<Token> tokenList;
   private LinkedList<? extends GrammarObject> nodes;
 
   Cuttlefish(
@@ -24,7 +24,7 @@ public class Cuttlefish {
           Tokenizer tokenizer,
           Grammarizer grammarizer,
           HashMap<String, Definition> definitionHashMap
-  ) {
+  ){
     this.file = file;
     this.tokenizer = tokenizer;
     this.grammarizer = grammarizer;
@@ -57,7 +57,7 @@ public class Cuttlefish {
     return definitionHashMap;
   }
 
-  public TokenList getTokenList() {
+  public LinkedList<Token> getTokenList() {
     return tokenList;
   }
 

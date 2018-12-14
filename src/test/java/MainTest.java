@@ -10,7 +10,8 @@ import java.util.LinkedList;
 
 public class MainTest {
   public static void main(String[] args) {
-    LinkedList<YamlNode> nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\config.yml").toFile(), "yaml").build().getNodes();
+    LinkedList<YamlNode> nodes = null;
+    nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\currency.yml").toFile(), "yaml").build().getNodes();
     for(YamlNode node : nodes) {
       System.out.println("-------------------------");
       System.out.println("-------------------------");

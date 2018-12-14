@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class LiteralDefinition extends Definition {
-  public LiteralDefinition() {
-    super("yaml_literal", Pattern.compile("[^#:?\"'\\[\\]{}]+"));
+public class ShorthandStartDefinition extends Definition {
+  public ShorthandStartDefinition() {
+    super("yaml_shorthand_start", Pattern.compile("^\\s*[{\\[]"));
   }
 }

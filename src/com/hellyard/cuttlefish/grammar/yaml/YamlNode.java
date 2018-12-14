@@ -2,6 +2,7 @@ package com.hellyard.cuttlefish.grammar.yaml;
 
 import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class YamlNode implements GrammarObject {
@@ -14,6 +15,9 @@ public class YamlNode implements GrammarObject {
   private String key;
   private final String node;
   private LinkedList<String> values;
+
+  private boolean shorthand;
+  private String shortCharacters;
 
   public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, LinkedList<String> values) {
     this.parent = parent;
@@ -56,6 +60,26 @@ public class YamlNode implements GrammarObject {
 
   public void setValues(LinkedList<String> values) {
     this.values = values;
+  }
+
+  public void set(String... values) {
+    this.values = new LinkedList<>(Arrays.asList(values));
+  }
+
+  public boolean isShorthand() {
+    return shorthand;
+  }
+
+  public void setShorthand(boolean shorthand) {
+    this.shorthand = shorthand;
+  }
+
+  public String getShortCharacters() {
+    return shortCharacters;
+  }
+
+  public void setShortCharacters(String shortCharacters) {
+    this.shortCharacters = shortCharacters;
   }
 
   @Override
