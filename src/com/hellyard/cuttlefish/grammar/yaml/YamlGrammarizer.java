@@ -36,7 +36,7 @@ public class YamlGrammarizer implements Grammarizer {
       Token previous = null;
       if(it.hasPrevious()) {
         previous = tokens.get(it.previousIndex());
-        System.out.println(previous.getDefinition());
+        //System.out.println(previous.getDefinition());
       }
 
       Token current = it.next();
@@ -51,15 +51,15 @@ public class YamlGrammarizer implements Grammarizer {
       }
 
       // Get Tokens
-      System.out.println("--------------");
-      System.out.println("-----");
-      System.out.println("Token Line: {" + current.getLineNumber() + "}");
-      System.out.println("Token Indent: {" + current.getIndentation() + "}");
-      System.out.println("Token Def: {" + current.getDefinition() + "}");
-      System.out.println("Token Value: {" + current.getValue() + "}");
-      System.out.println("Current Line: {" + line.toString() + "}");
-      System.out.println("-----");
-      System.out.println("--------------");
+      //System.out.println("--------------");
+      //System.out.println("-----");
+      //System.out.println("Token Line: {" + current.getLineNumber() + "}");
+      //System.out.println("Token Indent: {" + current.getIndentation() + "}");
+      //System.out.println("Token Def: {" + current.getDefinition() + "}");
+      //System.out.println("Token Value: {" + current.getValue() + "}");
+      //System.out.println("Current Line: {" + line.toString() + "}");
+      //System.out.println("-----");
+      //System.out.println("--------------");
       // Filter out nodes
 
       if(current.getDefinition().equalsIgnoreCase("yaml_quote")) {
@@ -117,8 +117,8 @@ public class YamlGrammarizer implements Grammarizer {
             node.setShortCharacters(shortChar + shortChars.charAt(shortChars.indexOf(shortChar) + 1));
             node.setShorthand(true);
             nodes.add(node);
-            System.out.println("Added node: " + node.toString());
-            System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
+            //System.out.println("Added node: " + node.toString());
+            //System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
             comments = new LinkedList<>();
             key = null;
             line.setLength(0);
@@ -143,8 +143,8 @@ public class YamlGrammarizer implements Grammarizer {
           final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
           YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
           nodes.add(node);
-          System.out.println("Added node: " + node.toString());
-          System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
+          //System.out.println("Added node: " + node.toString());
+          //System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
           comments = new LinkedList<>();
           key = null;
           line.setLength(0);
@@ -187,10 +187,10 @@ public class YamlGrammarizer implements Grammarizer {
 
           if(previous != null && previous.getLineNumber() < current.getLineNumber()) {
 
-            //System.out.println("In new if clause fucker");
+            ////System.out.println("In new if clause fucker");
             YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
             nodes.add(node);
-            //System.out.println("Added node: " + node.toString());
+            ////System.out.println("Added node: " + node.toString());
             comments = new LinkedList<>();
             values = new LinkedList<>();
             line.setLength(0);
@@ -207,7 +207,7 @@ public class YamlGrammarizer implements Grammarizer {
           }
           YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
           nodes.add(node);
-          //System.out.println("Added node: " + node.toString());
+          ////System.out.println("Added node: " + node.toString());
           comments = new LinkedList<>();
           key = null;
           line.setLength(0);
@@ -226,7 +226,7 @@ public class YamlGrammarizer implements Grammarizer {
     YamlNode parent = null;
     if(nodes.size() > 0) {
       if(nodes.getLast().getIndentation() == key.getIndentation()) {
-        System.out.println("Indent == ");
+        //System.out.println("Indent == ");
         parent = nodes.getLast().getParent();
       } else if(nodes.getLast().getIndentation() < key.getIndentation()) {
         parent = nodes.getLast();
