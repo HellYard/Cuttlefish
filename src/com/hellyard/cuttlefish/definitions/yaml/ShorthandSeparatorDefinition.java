@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class ShorthandSeparatorDefinition extends Definition {
   public ShorthandSeparatorDefinition() {
-    super("yaml_shorthand_separator", Pattern.compile("^\\s*[,]"));
+    super("yaml_shorthand_separator", Pattern.compile(","));
   }
 }

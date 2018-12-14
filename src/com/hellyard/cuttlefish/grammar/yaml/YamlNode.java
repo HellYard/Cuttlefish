@@ -16,8 +16,9 @@ public class YamlNode implements GrammarObject {
   private final String node;
   private LinkedList<String> values;
 
-  private boolean shorthand;
-  private String shortCharacters;
+  private boolean sequence = false;
+  private boolean shorthand = false;
+  private String shortCharacters = "";
 
   public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, LinkedList<String> values) {
     this.parent = parent;
@@ -64,6 +65,14 @@ public class YamlNode implements GrammarObject {
 
   public void set(String... values) {
     this.values = new LinkedList<>(Arrays.asList(values));
+  }
+
+  public boolean isSequence() {
+    return sequence;
+  }
+
+  public void setSequence(boolean sequence) {
+    this.sequence = sequence;
   }
 
   public boolean isShorthand() {

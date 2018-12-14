@@ -54,30 +54,7 @@ public class YamlComposer implements Composer {
         }
         writer.newLine();
         writer.write(indent + node.getKey() + ":");
-
-        if(node.getValues().size() > 0) {
-          if(node.getValues().size() > 1) {
-            writer.newLine();
-            for(int i = 0; i < node.getValues().size(); i++) {
-              if(i > 0) writer.newLine();
-
-              final String value = node.getValues().get(i);
-              final boolean literal = isLiteral(value);
-              writer.write(indent + "-");
-              if(!value.startsWith(" ")) writer.write(" ");
-              if(literal) writer.write("\"");
-              writer.write(value);
-              if(literal) writer.write("\"");
-            }
-          } else {
-            final String value = node.getValues().getFirst();
-            if(!value.startsWith(" ")) writer.write(" ");
-            final boolean literal = isLiteral(value);
-            if(literal) writer.write("\"");
-            writer.write(value);
-            if(literal) writer.write("\"");
-          }
-        }
+        writerValues(node, indent, writer);
       }
     } catch(IOException e) {
       return false;
@@ -85,10 +62,52 @@ public class YamlComposer implements Composer {
     return true;
   }
 
+  public void writerValues(YamlNode node, String indent, BufferedWriter writer) {
+    try {
+      if(node.getValues().size() > 0) {
+        if(node.isSequence()) {
+          writer.newLine();
+          for(int i = 0; i < node.getValues().size(); i++) {
+            if(i > 0) writer.newLine();
+
+            final String value = node.getValues().get(i);
+            final boolean literal = isLiteral(value);
+            writer.write(indent + "-");
+            writer.write(" ");
+            if(literal) writer.write("\"");
+            writer.write(value);
+            if(literal) writer.write("\"");
+          }
+        } else if(node.isShorthand()) {
+          writer.write(node.getShortCharacters().charAt(0));
+          for(int i = 0; i < node.getValues().size(); i++) {
+            if(i > 0) writer.write(", ");
+
+            final String value = node.getValues().get(i);
+            final boolean literal = isLiteral(value);
+            if(literal) writer.write("\"");
+            writer.write(value);
+            if(literal) writer.write("\"");
+          }
+          writer.write(node.getShortCharacters().charAt(1));
+        } else {
+          final String value = node.getValues().getFirst();
+          if(!value.startsWith(" ")) writer.write(" ");
+          final boolean literal = isLiteral(value);
+          if(literal) writer.write("\"");
+          writer.write(value);
+          if(literal) writer.write("\"");
+        }
+      }
+    } catch(IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   public boolean isLiteral(String str) {
     if(str.trim().equalsIgnoreCase("false") || str.trim().equalsIgnoreCase("true")) return false;
     try {
-      new BigDecimal(str);
+      new BigDecimal(str.trim());
       return false;
     } catch(NumberFormatException ignore) {
       return true;
