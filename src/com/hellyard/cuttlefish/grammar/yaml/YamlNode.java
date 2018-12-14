@@ -18,7 +18,7 @@ public class YamlNode implements GrammarObject {
 
   private boolean sequence = false;
   private boolean shorthand = false;
-  private String shortCharacters = "";
+  private String shortCharacters = "[]";
 
   public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, LinkedList<String> values) {
     this.parent = parent;
@@ -88,7 +88,9 @@ public class YamlNode implements GrammarObject {
   }
 
   public void setShortCharacters(String shortCharacters) {
-    this.shortCharacters = shortCharacters;
+    if(shortCharacters.length() > 1) {
+      this.shortCharacters = shortCharacters;
+    }
   }
 
   @Override
@@ -108,7 +110,7 @@ public class YamlNode implements GrammarObject {
 
   @Override
   public String toString() {
-    System.out.println(key);
+    //System.out.println(key);
     return key + values.toString();
   }
 

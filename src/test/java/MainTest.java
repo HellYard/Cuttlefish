@@ -11,8 +11,8 @@ import java.util.LinkedList;
 public class MainTest {
   public static void main(String[] args) {
     LinkedList<YamlNode> nodes = null;
-    nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\currency.yml").toFile(), "yaml").build().getNodes();
-    for(YamlNode node : nodes) {
+    nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\messages.yml").toFile(), "yaml").build().getNodes();
+    /*for(YamlNode node : nodes) {
       System.out.println("-------------------------");
       System.out.println("-------------------------");
       System.out.println("Node String: " + node.getNode());
@@ -28,7 +28,7 @@ public class MainTest {
       }
       System.out.println("-------------------------");
       System.out.println("-------------------------");
-    }
+    }*/
 
     File file = new File("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\testwrite.yml");
     new YamlComposer().compose(file, nodes);

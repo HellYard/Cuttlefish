@@ -70,12 +70,12 @@ public class YamlComposer implements Composer {
           for(int i = 0; i < node.getValues().size(); i++) {
             if(i > 0) writer.newLine();
 
-            final String value = node.getValues().get(i);
+            String value = node.getValues().get(i);
             final boolean literal = isLiteral(value);
             writer.write(indent + "-");
             writer.write(" ");
             if(literal) writer.write("\"");
-            writer.write(value);
+            writer.write(value.replaceAll("\"", "\\\\\""));
             if(literal) writer.write("\"");
           }
         } else if(node.isShorthand()) {
@@ -83,19 +83,19 @@ public class YamlComposer implements Composer {
           for(int i = 0; i < node.getValues().size(); i++) {
             if(i > 0) writer.write(", ");
 
-            final String value = node.getValues().get(i);
+            String value = node.getValues().get(i);
             final boolean literal = isLiteral(value);
             if(literal) writer.write("\"");
-            writer.write(value);
+            writer.write(value.replaceAll("\"", "\\\\\""));
             if(literal) writer.write("\"");
           }
           writer.write(node.getShortCharacters().charAt(1));
         } else {
-          final String value = node.getValues().getFirst();
+          String value = node.getValues().getFirst();
           if(!value.startsWith(" ")) writer.write(" ");
           final boolean literal = isLiteral(value);
           if(literal) writer.write("\"");
-          writer.write(value);
+          writer.write(value.replaceAll("\"", "\\\\\""));
           if(literal) writer.write("\"");
         }
       }

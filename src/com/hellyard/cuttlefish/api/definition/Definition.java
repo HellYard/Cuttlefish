@@ -14,6 +14,7 @@ public class Definition {
 
   private final String name;
   private final Pattern regex;
+  protected boolean once = false;
 
   public Definition(final String name, final Pattern regex) {
     this.name = name;
@@ -26,5 +27,9 @@ public class Definition {
 
   public Pattern getRegex() {
     return regex;
+  }
+
+  public boolean isOnce() {
+    return once;
   }
 }

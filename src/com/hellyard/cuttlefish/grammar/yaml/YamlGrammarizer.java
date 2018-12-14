@@ -52,6 +52,13 @@ public class YamlGrammarizer implements Grammarizer {
         skip = false;
       }
 
+      if(key == null) inShort = false;
+
+      //System.out.println("Type: " + current.getDefinition());
+      //System.out.println("Type: " + current.getValue());
+      //System.out.println("Quote: " + inQuote);
+      //System.out.println("Short: " + inShort);
+
       // Get Tokens
       //System.out.println("--------------");
       //System.out.println("-----");
@@ -65,36 +72,45 @@ public class YamlGrammarizer implements Grammarizer {
       // Filter out nodes
 
       if(current.getDefinition().equalsIgnoreCase("yaml_quote")) {
-        if(inQuote && current.getValue().trim().equalsIgnoreCase(quoteChar.trim())) {
-          if(inShort) {
-            System.out.println("Short: " + quotedValue.toString());
-            shortValue.append(quotedValue.toString());
-          } else {
-            values.add(quotedValue.toString());
-          }
-          inQuote = false;
-          quoteChar = "";
-          quotedValue.setLength(0);
-          line.setLength(0);
-          sequence = false;
+        if(inQuote) {
+          if(current.getValue().trim().equalsIgnoreCase(quoteChar.trim()) && !quotedValue.toString().endsWith("\\")) {
+            //System.out.println("Turning quotes off.");
+            if(inShort) {
+              shortValue.append(quotedValue.toString());
+            } else {
+              values.add(quotedValue.toString());
+            }
 
-          if(!it.hasNext()) {
-            final YamlNode parent = getParent(nodes, key);
-            final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
-            YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
-            node.setShortCharacters(shortChar + shortChars.charAt(shortChars.indexOf(shortChar) + 1));
-            node.setShorthand(true);
-            node.setSequence(containsSequence);
-            nodes.add(node);
-            //System.out.println("Added node: " + node.toString());
-            //System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
-            comments = new LinkedList<>();
-            key = null;
+            //System.out.println("Shortened: " + inShort);
+            inQuote = false;
+            quoteChar = "";
+            quotedValue.setLength(0);
             line.setLength(0);
-            shortValue.setLength(0);
-            values = new LinkedList<>();
+            sequence = false;
+
+            if(!it.hasNext()) {
+              final YamlNode parent = getParent(nodes, key);
+              final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
+              YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+              if(inShort) node.setShortCharacters(shortChar + shortChars.charAt(shortChars.indexOf(shortChar) + 1));
+              node.setShorthand(inShort);
+              node.setSequence(containsSequence);
+              nodes.add(node);
+              //System.out.println("Added node: " + node.toString());
+              //System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
+              comments = new LinkedList<>();
+              key = null;
+              line.setLength(0);
+              shortValue.setLength(0);
+              values = new LinkedList<>();
+            }
+          } else {
+            if(quotedValue.toString().endsWith("\\")) quotedValue.deleteCharAt(quotedValue.length() - 1);
+            quotedValue.append(current.getValue());
           }
-        } else if(!inQuote) {
+          continue;
+        } else {
+          //System.out.println("Turning quotes on.");
           inQuote = true;
           quoteChar = current.getValue();
         }
@@ -196,6 +212,8 @@ public class YamlGrammarizer implements Grammarizer {
       }
 
       if (current.getDefinition().equals("yaml_separator")) {
+        //System.out.println("Quote:" + inQuote);
+        //System.out.println("Key:" + key);
         if (key != null) {
           line.append(current.getValue());
           continue;

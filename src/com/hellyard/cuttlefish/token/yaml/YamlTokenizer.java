@@ -45,6 +45,7 @@ public class YamlTokenizer implements Tokenizer {
         }
         while (line.length() > 0) {
           for(Definition definition : definitions) {
+            if(definition.isOnce() && !start) continue;
 
             Matcher matcher = definition.getRegex().matcher(line);
             if (matcher.find()) {

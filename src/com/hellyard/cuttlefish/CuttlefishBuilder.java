@@ -42,6 +42,7 @@ public class CuttlefishBuilder {
               new ShorthandSeparatorDefinition(),
               new ShorthandEndDefinition(),
               new LiteralDefinition(),
+              //new LiteralSeparatorDefinition(),
               new MapDefinition(),
               new SeparatorDefinition());
       this.definitionsMap.putAll(definitionGroup.getDefinitions());
