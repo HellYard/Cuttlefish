@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class SeparatorDefinition extends Definition {
-  public SeparatorDefinition() {
-    super("yaml_separator", Pattern.compile("^\\s*:"));
+public class YamlQuoteDefinition extends Definition {
+  public YamlQuoteDefinition() {
+    super("yaml_quote", Pattern.compile("^\\s*[\"']"));
   }
 }

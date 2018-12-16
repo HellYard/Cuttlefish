@@ -62,7 +62,7 @@ public class YamlComposer implements Composer {
     return true;
   }
 
-  public void writerValues(YamlNode node, String indent, BufferedWriter writer) {
+  private void writerValues(YamlNode node, String indent, BufferedWriter writer) {
     try {
       if(node.getValues().size() > 0) {
         if(node.isSequence()) {
@@ -104,7 +104,7 @@ public class YamlComposer implements Composer {
     }
   }
 
-  public boolean isLiteral(String str) {
+  private boolean isLiteral(String str) {
     if(str.trim().equalsIgnoreCase("false") || str.trim().equalsIgnoreCase("true")) return false;
     try {
       new BigDecimal(str.trim());

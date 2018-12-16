@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class MapDefinition extends Definition {
-  public MapDefinition() {
-    super("yaml_map", Pattern.compile(Pattern.quote("^\\s*?")));
+public class YamlShorthandStartDefinition extends Definition {
+  public YamlShorthandStartDefinition() {
+    super("yaml_shorthand_start", Pattern.compile("^\\s*[{\\[]"));
   }
 }

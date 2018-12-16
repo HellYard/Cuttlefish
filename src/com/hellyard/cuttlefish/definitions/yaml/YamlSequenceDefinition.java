@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class SequenceDefinition extends Definition {
-  public SequenceDefinition() {
+public class YamlSequenceDefinition extends Definition {
+  public YamlSequenceDefinition() {
     super("yaml_sequence", Pattern.compile("^\\s*-"));
   }
 }
