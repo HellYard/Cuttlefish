@@ -2,7 +2,7 @@ package com.hellyard.cuttlefish.api.token;
 
 import com.hellyard.cuttlefish.api.definition.Definition;
 
-import java.io.File;
+import java.io.Reader;
 import java.util.LinkedList;
 
 /**
@@ -17,5 +17,5 @@ public interface Tokenizer {
 
   String name();
 
-  LinkedList<Token> tokenize(File file, LinkedList<Definition> definitions);
+  LinkedList<Token> tokenize(Reader reader, LinkedList<Definition> definitions);
 }

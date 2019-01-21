@@ -16,20 +16,20 @@ import com.hellyard.cuttlefish.definitions.yaml.ShorthandStartDefinition;
 import com.hellyard.cuttlefish.grammar.yaml.YamlGrammarizer;
 import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
 
-import java.io.File;
+import java.io.Reader;
 import java.util.LinkedHashMap;
 
 public class CuttlefishBuilder {
   LinkedHashMap<String, Definition> definitionsMap = new LinkedHashMap<>();
-  private File file;
+  private Reader reader;
   private Tokenizer tokenizer;
   private Grammarizer grammarizer;
 
-  public CuttlefishBuilder(File file, String presetType) {
-    if (file == null) {
-      throw new NullPointerException("File stream cannot be null");
+  public CuttlefishBuilder(Reader reader, String presetType) {
+    if (reader == null) {
+      throw new NullPointerException("File Reader cannot be null");
     }
-    this.file = file;
+    this.reader = reader;
     if (presetType != null && presetType.equalsIgnoreCase("yaml")) {
       this.tokenizer = new YamlTokenizer();
       this.grammarizer = new YamlGrammarizer();
@@ -50,6 +50,6 @@ public class CuttlefishBuilder {
   }
 
   public Cuttlefish build() {
-    return new Cuttlefish(file, tokenizer, grammarizer, definitionsMap);
+    return new Cuttlefish(reader, tokenizer, grammarizer, definitionsMap);
   }
 }

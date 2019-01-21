@@ -5,13 +5,19 @@ import com.hellyard.cuttlefish.composer.yaml.YamlComposer;
 import com.hellyard.cuttlefish.grammar.yaml.YamlNode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 
 public class MainTest {
   public static void main(String[] args) {
     LinkedList<YamlNode> nodes = null;
-    nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\messages.yml").toFile(), "yaml").build().getNodes();
+    try {
+      nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(new FileReader(Paths.get("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\messages.yml").toFile()), "yaml").build().getNodes();
+    } catch(FileNotFoundException e) {
+      e.printStackTrace();
+    }
     /*for(YamlNode node : nodes) {
       System.out.println("-------------------------");
       System.out.println("-------------------------");

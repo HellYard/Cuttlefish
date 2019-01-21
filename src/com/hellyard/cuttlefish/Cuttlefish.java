@@ -8,24 +8,25 @@ import com.hellyard.cuttlefish.api.token.Tokenizer;
 import com.hellyard.cuttlefish.exception.GrammarException;
 
 import java.io.File;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Cuttlefish {
   private HashMap<String, Definition> definitionHashMap;
-  private File file;
+  private Reader reader;
   private Grammarizer grammarizer;
   private Tokenizer tokenizer;
   private LinkedList<Token> tokenList;
   private LinkedList<? extends GrammarObject> nodes;
 
   Cuttlefish(
-          File file,
+          Reader reader,
           Tokenizer tokenizer,
           Grammarizer grammarizer,
           HashMap<String, Definition> definitionHashMap
   ){
-    this.file = file;
+    this.reader = reader;
     this.tokenizer = tokenizer;
     this.grammarizer = grammarizer;
     this.definitionHashMap = definitionHashMap;
@@ -33,7 +34,7 @@ public class Cuttlefish {
   }
 
   private void parseNodes() {
-    tokenList = tokenizer.tokenize(file, new LinkedList<>(definitionHashMap.values()));
+    tokenList = tokenizer.tokenize(reader, new LinkedList<>(definitionHashMap.values()));
     try {
       nodes = grammarizer.grammarize(tokenList);
     } catch (GrammarException e) {
@@ -41,8 +42,8 @@ public class Cuttlefish {
     }
   }
 
-  public File getFile() {
-    return file;
+  public Reader getReader() {
+    return reader;
   }
 
   public Tokenizer getTokenizer() {
