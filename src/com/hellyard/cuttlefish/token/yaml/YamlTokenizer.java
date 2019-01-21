@@ -22,7 +22,7 @@ public class YamlTokenizer implements Tokenizer {
 
   @Override
   public String name() {
-    return "YAML";
+    return "yaml";
   }
 
   public LinkedList<Token> tokenize(Reader reader, LinkedList<Definition> definitions) {

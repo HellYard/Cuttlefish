@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class ShorthandEndDefinition extends Definition {
-  public ShorthandEndDefinition() {
-    super("yaml_shorthand_end", Pattern.compile("^\\s*[}\\]]"));
+public class YamlSeparatorDefinition extends Definition {
+  public YamlSeparatorDefinition() {
+    super("yaml_separator", Pattern.compile("^\\s*:"));
   }
 }

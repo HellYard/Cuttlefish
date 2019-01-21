@@ -110,7 +110,6 @@ public class YamlNode implements GrammarObject {
 
   @Override
   public String toString() {
-    //System.out.println(key);
     return key + values.toString();
   }
 

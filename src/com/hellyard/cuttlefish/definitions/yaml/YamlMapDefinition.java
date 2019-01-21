@@ -12,9 +12,8 @@ import java.util.regex.Pattern;
  * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
  * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
  */
-public class CommentDefinition extends Definition {
-  public CommentDefinition() {
-    super("yaml_comment", Pattern.compile("(?m)^\\s*#.*"));
-    once = true;
+public class YamlMapDefinition extends Definition {
+  public YamlMapDefinition() {
+    super("yaml_map", Pattern.compile(Pattern.quote("^\\s*?")));
   }
 }
