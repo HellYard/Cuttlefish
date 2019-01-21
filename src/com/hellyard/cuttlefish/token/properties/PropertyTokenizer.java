@@ -4,7 +4,7 @@ import com.hellyard.cuttlefish.api.definition.Definition;
 import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
 
-import java.io.File;
+import java.io.Reader;
 import java.util.LinkedList;
 
 public class PropertyTokenizer implements Tokenizer {
@@ -14,7 +14,7 @@ public class PropertyTokenizer implements Tokenizer {
   }
 
   @Override
-  public LinkedList<Token> tokenize(File file, LinkedList<Definition> definitions) {
+  public LinkedList<Token> tokenize(Reader Reader, LinkedList<Definition> definitions) {
     return null;
   }
 }
