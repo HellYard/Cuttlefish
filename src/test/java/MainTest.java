@@ -19,21 +19,21 @@ public class MainTest {
       e.printStackTrace();
     }
     /*for(YamlNode node : nodes) {
-      System.out.println("-------------------------");
-      System.out.println("-------------------------");
-      System.out.println("Node String: " + node.getNode());
-      System.out.println("Key: " + node.getKey());
-      System.out.println("Line #: " + node.getLineNumber());
-      System.out.println("Values: " + String.join(",", node.getValues()));
-      System.out.println("Comments: " + String.join(",", node.getComments()));
+      //System.out.println("-------------------------");
+      //System.out.println("-------------------------");
+      //System.out.println("Node String: " + node.getNode());
+      //System.out.println("Key: " + node.getKey());
+      //System.out.println("Line #: " + node.getLineNumber());
+      //System.out.println("Values: " + String.join(",", node.getValues()));
+      //System.out.println("Comments: " + String.join(",", node.getComments()));
 
       if(node.getParent() == null) {
-        System.out.println("Parent: None");
+        //System.out.println("Parent: None");
       } else {
-        System.out.println("Parent: " + node.getParent().toString());
+        //System.out.println("Parent: " + node.getParent().toString());
       }
-      System.out.println("-------------------------");
-      System.out.println("-------------------------");
+      //System.out.println("-------------------------");
+      //System.out.println("-------------------------");
     }*/
 
     File file = new File("C:\\Users\\Daniel\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\testwrite.yml");

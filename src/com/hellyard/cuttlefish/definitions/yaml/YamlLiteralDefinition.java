@@ -14,6 +14,6 @@ import java.util.regex.Pattern;
  */
 public class YamlLiteralDefinition extends Definition {
   public YamlLiteralDefinition() {
-    super("yaml_literal", Pattern.compile("[^:?\"'\\[\\]{}]+"));
+    super("yaml_literal", Pattern.compile("[^:\"'\\[\\]{}]+"));
   }
 }

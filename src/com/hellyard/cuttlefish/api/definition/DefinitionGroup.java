@@ -28,7 +28,7 @@ public class DefinitionGroup {
     return new LinkedList<>(definitions.values());
   }
 
-  public void addDefinition(Definition... definitions) {
+  public void addDefinition(LinkedList<Definition> definitions) {
     for(Definition definition : definitions) {
       this.definitions.put(definition.getName(), definition);
     }

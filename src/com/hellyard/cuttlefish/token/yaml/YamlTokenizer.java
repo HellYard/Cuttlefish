@@ -34,6 +34,7 @@ public class YamlTokenizer implements Tokenizer {
       while (scanner.hasNextLine()) {
         boolean start = true;
         String line = scanner.nextLine();
+        //System.out.println("line - " + line);
         line = line.replaceAll("\\t", "    ");
         final int indentation = line.indexOf(line.trim());
 
@@ -42,6 +43,7 @@ public class YamlTokenizer implements Tokenizer {
           tokens.add(new Token(lineCount, indentation, "empty_line", ""));
         }
         while (line.length() > 0) {
+          //System.out.println("Loop Line: " + line);
           for(Definition definition : definitions) {
             if(definition.isOnce() && !start) continue;
 

@@ -12,6 +12,7 @@ import com.hellyard.cuttlefish.grammar.yaml.YamlGrammarizer;
 import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class YamlConfigurationType implements ConfigurationType {
 
@@ -23,16 +24,19 @@ public class YamlConfigurationType implements ConfigurationType {
   @Override
   public LinkedHashMap<String, Definition> getDefinitions() {
     DefinitionGroup definitionGroup = new DefinitionGroup("yaml");
-    definitionGroup.addDefinition(
-            new YamlCommentDefinition(),
-            new YamlSequenceDefinition(),
-            new YamlQuoteDefinition(),
-            new YamlShorthandStartDefinition(),
-            new YamlShorthandSeparatorDefinition(),
-            new YamlShorthandEndDefinition(),
-            new YamlLiteralDefinition(),
-            new YamlMapDefinition(),
-            new YamlSeparatorDefinition());
+
+    LinkedList<Definition> definitions = new LinkedList<>();
+    
+    definitions.add(new YamlCommentDefinition());
+    definitions.add(new YamlSequenceDefinition());
+    definitions.add(new YamlQuoteDefinition());
+    definitions.add(new YamlShorthandStartDefinition());
+    definitions.add(new YamlShorthandSeparatorDefinition());
+    definitions.add(new YamlShorthandEndDefinition());
+    definitions.add(new YamlLiteralDefinition());
+    definitions.add(new YamlMapDefinition());
+    definitions.add(new YamlSeparatorDefinition());
+    definitionGroup.addDefinition(definitions);
     return definitionGroup.getDefinitions();
   }
 

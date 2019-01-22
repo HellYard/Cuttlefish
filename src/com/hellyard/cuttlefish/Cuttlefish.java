@@ -36,24 +36,32 @@ public class Cuttlefish {
 
   Cuttlefish(Reader reader, String configurationType) {
     ConfigurationType type = null;
+    //System.out.println("Constructor");
     if (configurations.containsKey(configurationType)) {
       type = configurations.get(configurationType);
     }
+    //System.out.println("Constructor1");
     if (type == null) {
       throw new IllegalArgumentException(configurationType + " is not a valid configuration type!");
     }
+    //System.out.println("Constructor2");
     this.reader = reader;
     tokenizer = type.getTokenizer();
     grammarizer = type.getGrammarizer();
     composer = type.getComposer();
     this.definitionHashMap = type.getDefinitions();
+    //System.out.println("Constructor3");
     parseNodes();
   }
 
   private void parseNodes() {
+    //System.out.println("tokenize");
     tokenList = tokenizer.tokenize(reader, new LinkedList<>(definitionHashMap.values()));
+    //System.out.println("tokenized");
     try {
+      //System.out.println("grammarize");
       nodes = grammarizer.grammarize(tokenList);
+      //System.out.println("grammarized");
     } catch (GrammarException e) {
       e.printStackTrace();
     }

@@ -7,7 +7,6 @@ import com.hellyard.cuttlefish.api.definition.DefinitionGroup;
 import com.hellyard.cuttlefish.api.grammar.Grammarizer;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
 import com.hellyard.cuttlefish.composer.properties.PropertiesComposer;
-import com.hellyard.cuttlefish.definitions.yaml.*;
 import com.hellyard.cuttlefish.grammar.properties.PropertiesGrammarizer;
 import com.hellyard.cuttlefish.token.properties.PropertyTokenizer;
 
@@ -21,17 +20,7 @@ public class PropertiesConfigurationType implements ConfigurationType {
 
   @Override
   public LinkedHashMap<String, Definition> getDefinitions() {
-    DefinitionGroup definitionGroup = new DefinitionGroup("properties");
-    definitionGroup.addDefinition(
-            new YamlCommentDefinition(),
-            new YamlSequenceDefinition(),
-            new YamlQuoteDefinition(),
-            new YamlShorthandStartDefinition(),
-            new YamlShorthandSeparatorDefinition(),
-            new YamlShorthandEndDefinition(),
-            new YamlLiteralDefinition(),
-            new YamlMapDefinition(),
-            new YamlSeparatorDefinition());
+    DefinitionGroup definitionGroup = new DefinitionGroup("properties");;
     return definitionGroup.getDefinitions();
   }
 
