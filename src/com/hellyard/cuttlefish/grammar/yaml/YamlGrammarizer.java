@@ -6,6 +6,7 @@ import com.hellyard.cuttlefish.api.token.Token;
 import com.hellyard.cuttlefish.exception.GrammarException;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 public class YamlGrammarizer implements Grammarizer {
@@ -18,9 +19,13 @@ public class YamlGrammarizer implements Grammarizer {
 
   @Override
   public LinkedList<? extends GrammarObject> grammarize(final LinkedList<Token> tokens) throws GrammarException {
-    LinkedList<String> comments = new LinkedList<>();
+    LinkedList<String> nodeComments = new LinkedList<>();
+    List<String> commentBlock = new LinkedList<>();
     Token key = null;
-    LinkedList<String> values = new LinkedList<>();
+
+    LinkedList<YamlValue> newValues = new LinkedList<>();
+
+    //LinkedList<String> values = new LinkedList<>();
     StringBuilder line = new StringBuilder();
     StringBuilder quotedValue = new StringBuilder();
     StringBuilder shortValue = new StringBuilder();
@@ -29,6 +34,7 @@ public class YamlGrammarizer implements Grammarizer {
     final String shortChars = "[]{}";
     String shortChar = "";
     String quoteChar = "";
+
 
     boolean containsSequence = false;
     boolean sequence = false;
@@ -78,7 +84,8 @@ public class YamlGrammarizer implements Grammarizer {
             if(inShort) {
               shortValue.append(quotedValue.toString());
             } else {
-              values.add(quotedValue.toString());
+              newValues.add(new YamlValue(commentBlock, quotedValue.toString(), "string"));
+              commentBlock = new LinkedList<>();
             }
 
             ////System.out.println("Shortened: " + inShort);
@@ -91,18 +98,19 @@ public class YamlGrammarizer implements Grammarizer {
             if(!it.hasNext()) {
               final YamlNode parent = getParent(nodes, key);
               final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
-              YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+              YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), nodeComments, key.getValue(), nodeStr, newValues);
               if(inShort) node.setShortCharacters(shortChar + shortChars.charAt(shortChars.indexOf(shortChar) + 1));
               node.setShorthand(inShort);
               node.setSequence(containsSequence);
               nodes.add(node);
               ////System.out.println("Added node: " + node.toString());
               ////System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
-              comments = new LinkedList<>();
+              commentBlock = new LinkedList<>();
+              nodeComments = new LinkedList<>();
               key = null;
               line.setLength(0);
               shortValue.setLength(0);
-              values = new LinkedList<>();
+              newValues = new LinkedList<>();
             }
           } else {
             if(quotedValue.toString().endsWith("\\")) quotedValue.deleteCharAt(quotedValue.length() - 1);
@@ -134,7 +142,8 @@ public class YamlGrammarizer implements Grammarizer {
 
       if(current.getDefinition().equalsIgnoreCase("yaml_shorthand_separator")) {
         if(inShort) {
-          values.add(shortValue.toString());
+          newValues.add(new YamlValue(commentBlock, shortValue.toString(), "string_list"));
+          commentBlock = new LinkedList<>();
           shortValue.setLength(0);
           line.append(current.getValue());
           continue;
@@ -149,20 +158,21 @@ public class YamlGrammarizer implements Grammarizer {
           if(shortChars.indexOf(current.getValue().trim()) == (shortChars.indexOf(shortChar) + 1)) {
             inShort = false;
             line.append(current.getValue());
-            values.add(shortValue.toString());
+            newValues.add(new YamlValue(commentBlock, shortValue.toString(), "string_list"));
             final YamlNode parent = getParent(nodes, key);
             final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
-            YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+            YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), nodeComments, key.getValue(), nodeStr, newValues);
             node.setShortCharacters(shortChar + shortChars.charAt(shortChars.indexOf(shortChar) + 1));
             node.setShorthand(true);
             nodes.add(node);
             ////System.out.println("Added node: " + node.toString());
             ////System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
-            comments = new LinkedList<>();
+            nodeComments = new LinkedList<>();
+            commentBlock = new LinkedList<>();
             key = null;
             line.setLength(0);
             shortValue.setLength(0);
-            values = new LinkedList<>();
+            newValues = new LinkedList<>();
             continue;
           }
           shortValue.append(current.getValue());
@@ -179,25 +189,31 @@ public class YamlGrammarizer implements Grammarizer {
       }
 
       if (current.getDefinition().equals("yaml_comment") || current.getDefinition().equals("empty_line")) {
-        if(previous != null && key != null) {
+        if(previous != null && key != null && !sequence) {
           final YamlNode parent = getParent(nodes, key);
           final String nodeStr = (parent == null)? key.getValue() : parent.getNode() + "." + key.getValue();
-          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), nodeComments, key.getValue(), nodeStr, newValues);
           node.setSequence(containsSequence);
           nodes.add(node);
           ////System.out.println("Added node: " + node.toString());
           ////System.out.println("Parent: " + ((parent == null)? "None" : parent.toString()));
-          comments = new LinkedList<>();
+          nodeComments = new LinkedList<>();
+          commentBlock = new LinkedList<>();
           key = null;
           containsSequence = false;
           line.setLength(0);
-          values = new LinkedList<>();
+          newValues = new LinkedList<>();
         }
 
         if(current.getDefinition().equalsIgnoreCase("empty_line")) {
-          comments.add(System.lineSeparator());
+          commentBlock.add(System.lineSeparator());
         } else {
-          comments.add(current.getValue());
+          commentBlock.add(current.getValue());
+        }
+
+        if(next != null && !next.getDefinition().equalsIgnoreCase("empty_line") && !next.getDefinition().equalsIgnoreCase("yaml_comment") && !sequence) {
+          nodeComments.addAll(commentBlock);
+          commentBlock = new LinkedList<>();
         }
         continue;
       }
@@ -225,7 +241,8 @@ public class YamlGrammarizer implements Grammarizer {
       if (current.getDefinition().equals("yaml_literal")) {
         if(sequence) {
           sequence = false;
-          values.add(current.getValue().trim());
+          newValues.add(new YamlValue(commentBlock, current.getValue().trim(), "string"));
+          commentBlock = new LinkedList<>();
           continue;
         } else if (key != null) {
           YamlNode parent = getParent(nodes, key);
@@ -234,12 +251,13 @@ public class YamlGrammarizer implements Grammarizer {
           if(previous != null && previous.getLineNumber() < current.getLineNumber()) {
 
             //////System.out.println("In new if clause fucker");
-            YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+            YamlNode node = new YamlNode(parent, key.getIndentation(), previous.getLineNumber(), line.toString(), nodeComments, key.getValue(), nodeStr, newValues);
             node.setSequence(containsSequence);
             nodes.add(node);
             //////System.out.println("Added node: " + node.toString());
-            comments = new LinkedList<>();
-            values = new LinkedList<>();
+            nodeComments = new LinkedList<>();
+            commentBlock = new LinkedList<>();
+            newValues = new LinkedList<>();
             line.setLength(0);
             containsSequence = false;
             key = current;
@@ -247,20 +265,24 @@ public class YamlGrammarizer implements Grammarizer {
             continue;
           }
           if(next != null && next.getLineNumber() == current.getLineNumber() && next.getDefinition().equalsIgnoreCase("yaml_sequence")) {
-            values.add(current.getValue() + "-");
+            newValues.add(new YamlValue(commentBlock, current.getValue() + "-", "string"));
+            commentBlock = new LinkedList<>();
             skip = true;
           } else {
-            values.add(current.getValue().trim());
+            newValues.add(new YamlValue(commentBlock, current.getValue().trim(), "string"));
+            commentBlock = new LinkedList<>();
           }
-          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), comments, key.getValue(), nodeStr, values);
+          YamlNode node = new YamlNode(parent, key.getIndentation(), current.getLineNumber(), line.toString(), nodeComments, key.getValue(), nodeStr, newValues);
           node.setSequence(containsSequence);
           nodes.add(node);
           //////System.out.println("Added node: " + node.toString());
-          comments = new LinkedList<>();
+          nodeComments = new LinkedList<>();
+          commentBlock = new LinkedList<>();
           containsSequence = false;
+          sequence = false;
           key = null;
           line.setLength(0);
-          values = new LinkedList<>();
+          newValues = new LinkedList<>();
         } else {
           key = current;
           line.append(current.getValue());

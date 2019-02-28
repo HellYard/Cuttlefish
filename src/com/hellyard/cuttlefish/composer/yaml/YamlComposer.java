@@ -3,6 +3,7 @@ package com.hellyard.cuttlefish.composer.yaml;
 import com.hellyard.cuttlefish.api.composer.Composer;
 import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 import com.hellyard.cuttlefish.grammar.yaml.YamlNode;
+import com.hellyard.cuttlefish.grammar.yaml.YamlValue;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -64,34 +65,54 @@ public class YamlComposer implements Composer {
 
   private void writerValues(YamlNode node, String indent, BufferedWriter writer) {
     try {
-      if(node.getValues().size() > 0) {
+      if(node.getNewValues().size() > 0) {
         if(node.isSequence()) {
           writer.newLine();
-          for(int i = 0; i < node.getValues().size(); i++) {
+          for(int i = 0; i < node.getNewValues().size(); i++) {
             if(i > 0) writer.newLine();
 
-            String value = node.getValues().get(i);
-            final boolean literal = isLiteral(value);
+            YamlValue value = node.getNewValues().get(i);
+            
+            for(int j = 0; j < value.getComments().size(); j++) {
+              if(j > 0) writer.newLine();
+
+              final String comment = value.getComments().get(j);
+              if(comment.trim().equalsIgnoreCase("")) {
+                writer.newLine();
+              } else {
+                writer.write(indent);
+                if(!comment.startsWith("#")) {
+                  writer.write("#");
+                }
+                writer.write(comment);
+              }
+            }
+
+            if(value.getComments().size() > 0) {
+              writer.newLine();
+            }
+
+            final boolean literal = isLiteral(value.getValue());
             writer.write(indent + "-");
             writer.write(" ");
             if(literal) writer.write("\"");
-            writer.write(value.replaceAll("\"", "\\\\\""));
+            writer.write(value.getValue().replaceAll("\"", "\\\\\""));
             if(literal) writer.write("\"");
           }
         } else if(node.isShorthand()) {
           writer.write(node.getShortCharacters().charAt(0));
-          for(int i = 0; i < node.getValues().size(); i++) {
+          for(int i = 0; i < node.getNewValues().size(); i++) {
             if(i > 0) writer.write(", ");
 
-            String value = node.getValues().get(i);
-            final boolean literal = isLiteral(value);
+            String strValue = node.getNewValues().get(i).getValue();
+            final boolean literal = isLiteral(strValue);
             if(literal) writer.write("\"");
-            writer.write(value.replaceAll("\"", "\\\\\""));
+            writer.write(strValue.replaceAll("\"", "\\\\\""));
             if(literal) writer.write("\"");
           }
           writer.write(node.getShortCharacters().charAt(1));
         } else {
-          String value = node.getValues().getFirst();
+          String value = node.getNewValues().get(0).getValue();
           if(!value.startsWith(" ")) writer.write(" ");
           final boolean literal = isLiteral(value);
           if(literal) writer.write("\"");

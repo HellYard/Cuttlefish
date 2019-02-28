@@ -4,6 +4,7 @@ import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class YamlNode implements GrammarObject {
 
@@ -15,6 +16,7 @@ public class YamlNode implements GrammarObject {
   private String key;
   private final String node;
   private LinkedList<String> values;
+  private List<YamlValue> newValues;
 
   private boolean sequence = false;
   private boolean shorthand = false;
@@ -29,6 +31,17 @@ public class YamlNode implements GrammarObject {
     this.key = key;
     this.node = node;
     this.values = values;
+  }
+
+  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, List<YamlValue> newValues) {
+    this.parent = parent;
+    this.indentation = indentation;
+    this.lineNumber = lineNumber;
+    this.line = line;
+    this.comments = comments;
+    this.key = key;
+    this.node = node;
+    this.newValues = newValues;
   }
 
   public int getIndentation() {
@@ -111,6 +124,14 @@ public class YamlNode implements GrammarObject {
   @Override
   public String toString() {
     return key + values.toString();
+  }
+
+  public List<YamlValue> getNewValues() {
+    return newValues;
+  }
+
+  public void setNewValues(List<YamlValue> newValues) {
+    this.newValues = newValues;
   }
 
   @Override
