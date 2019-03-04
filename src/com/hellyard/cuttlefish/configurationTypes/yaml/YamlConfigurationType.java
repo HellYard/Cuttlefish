@@ -14,6 +14,12 @@ import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
+/**
+ * Created by creatorfromhell.
+ *
+ * Cuttlefish YAML Parser
+ * License: http://creativecommons.org/licenses/by-nc-nd/4.0/
+ */
 public class YamlConfigurationType implements ConfigurationType {
 
   @Override
