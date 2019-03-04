@@ -6,6 +6,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * Created by creatorfromhell.
+ *
+ * Cuttlefish YAML Parser
+ * License: http://creativecommons.org/licenses/by-nc-nd/4.0/
+ */
 public class YamlNode implements GrammarObject {
 
   private final YamlNode parent;
@@ -123,7 +130,7 @@ public class YamlNode implements GrammarObject {
 
   @Override
   public String toString() {
-    return key + values.toString();
+    return key;
   }
 
   public List<YamlValue> getNewValues() {

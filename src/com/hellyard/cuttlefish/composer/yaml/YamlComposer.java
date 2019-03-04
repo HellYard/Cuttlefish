@@ -17,9 +17,7 @@ import java.util.LinkedList;
  * Created by creatorfromhell.
  *
  * Cuttlefish YAML Parser
- *
- * This work is licensed under the GNU Affero General Public License Version 3. To view a copy of
- * this license, visit https://www.gnu.org/licenses/agpl-3.0.html.
+ * License: http://creativecommons.org/licenses/by-nc-nd/4.0/
  */
 public class YamlComposer implements Composer {
   @Override
@@ -40,12 +38,12 @@ public class YamlComposer implements Composer {
       for(YamlNode node : nodes) {
         final String indent = (node.getIndentation() > 0)? String.format("%1$" + node.getIndentation() + "s", "") : "";
         for(int i = 0; i < node.getComments().size(); i++) {
-          if(i > 0) writer.newLine();
 
           final String comment = node.getComments().get(i);
           if(comment.trim().equalsIgnoreCase("")) {
             writer.newLine();
           } else {
+            if(i > 0) writer.newLine();
             writer.write(indent);
             if(!comment.startsWith("#")) {
               writer.write("#");
@@ -69,17 +67,16 @@ public class YamlComposer implements Composer {
         if(node.isSequence()) {
           writer.newLine();
           for(int i = 0; i < node.getNewValues().size(); i++) {
-            if(i > 0) writer.newLine();
 
             YamlValue value = node.getNewValues().get(i);
             
             for(int j = 0; j < value.getComments().size(); j++) {
-              if(j > 0) writer.newLine();
 
               final String comment = value.getComments().get(j);
               if(comment.trim().equalsIgnoreCase("")) {
                 writer.newLine();
               } else {
+                if(i > 0) writer.newLine();
                 writer.write(indent);
                 if(!comment.startsWith("#")) {
                   writer.write("#");
