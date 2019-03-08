@@ -7,8 +7,16 @@ import com.hellyard.cuttlefish.api.definition.DefinitionGroup;
 import com.hellyard.cuttlefish.api.grammar.Grammarizer;
 import com.hellyard.cuttlefish.api.token.Tokenizer;
 import com.hellyard.cuttlefish.composer.yaml.YamlComposer;
-import com.hellyard.cuttlefish.definitions.yaml.*;
-import com.hellyard.cuttlefish.grammar.yaml.YamlGrammarizer;
+import com.hellyard.cuttlefish.definitions.yaml.YamlCommentDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlLiteralDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlMapDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlQuoteDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlSeparatorDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlSequenceDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandEndDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandSeparatorDefinition;
+import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandStartDefinition;
+import com.hellyard.cuttlefish.grammar.yaml.NewYamlGrammarizer;
 import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
 
 import java.util.LinkedHashMap;
@@ -53,7 +61,7 @@ public class YamlConfigurationType implements ConfigurationType {
 
   @Override
   public Grammarizer getGrammarizer() {
-    return new YamlGrammarizer();
+    return new NewYamlGrammarizer();
   }
 
   @Override

@@ -36,4 +36,14 @@ public class Token {
   public String getValue() {
     return value;
   }
+
+  @Override
+  public String toString() {
+    return "Token{" +
+        "lineNumber=" + lineNumber +
+        ", indentation=" + indentation +
+        ", definition='" + definition + '\'' +
+        ", value='" + value + '\'' +
+        '}';
+  }
 }
