@@ -2,7 +2,6 @@ package com.hellyard.cuttlefish.grammar.yaml;
 
 import com.hellyard.cuttlefish.api.grammar.GrammarObject;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,14 +21,13 @@ public class YamlNode implements GrammarObject {
   private LinkedList<String> comments;
   private String key;
   private final String node;
-  private LinkedList<String> values;
   private List<YamlValue> newValues;
 
   private boolean sequence = false;
   private boolean shorthand = false;
   private String shortCharacters = "[]";
 
-  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, LinkedList<String> values) {
+  public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node) {
     this.parent = parent;
     this.indentation = indentation;
     this.lineNumber = lineNumber;
@@ -37,7 +35,6 @@ public class YamlNode implements GrammarObject {
     this.comments = comments;
     this.key = key;
     this.node = node;
-    this.values = values;
   }
 
   public YamlNode(YamlNode parent, int indentation, int lineNumber, String line, final LinkedList<String> comments, String key, final String node, List<YamlValue> newValues) {
@@ -73,18 +70,6 @@ public class YamlNode implements GrammarObject {
 
   public String getNode() {
     return node;
-  }
-
-  public LinkedList<String> getValues() {
-    return values;
-  }
-
-  public void setValues(LinkedList<String> values) {
-    this.values = values;
-  }
-
-  public void set(String... values) {
-    this.values = new LinkedList<>(Arrays.asList(values));
   }
 
   public boolean isSequence() {
@@ -133,11 +118,11 @@ public class YamlNode implements GrammarObject {
     return key;
   }
 
-  public List<YamlValue> getNewValues() {
+  public List<YamlValue> getValues() {
     return newValues;
   }
 
-  public void setNewValues(List<YamlValue> newValues) {
+  public void setValues(List<YamlValue> newValues) {
     this.newValues = newValues;
   }
 

@@ -63,12 +63,12 @@ public class YamlComposer implements Composer {
 
   private void writerValues(YamlNode node, String indent, BufferedWriter writer) {
     try {
-      if(node.getNewValues().size() > 0) {
+      if(node.getValues().size() > 0) {
         if(node.isSequence()) {
           writer.newLine();
-          for(int i = 0; i < node.getNewValues().size(); i++) {
+          for(int i = 0; i < node.getValues().size(); i++) {
 
-            YamlValue value = node.getNewValues().get(i);
+            YamlValue value = node.getValues().get(i);
             
             for(int j = 0; j < value.getComments().size(); j++) {
 
@@ -98,10 +98,10 @@ public class YamlComposer implements Composer {
           }
         } else if(node.isShorthand()) {
           writer.write(node.getShortCharacters().charAt(0));
-          for(int i = 0; i < node.getNewValues().size(); i++) {
+          for(int i = 0; i < node.getValues().size(); i++) {
             if(i > 0) writer.write(", ");
 
-            String strValue = node.getNewValues().get(i).getValue();
+            String strValue = node.getValues().get(i).getValue();
             final boolean literal = isLiteral(strValue);
             if(literal) writer.write("\"");
             writer.write(strValue.replaceAll("\"", "\\\\\""));
@@ -109,7 +109,7 @@ public class YamlComposer implements Composer {
           }
           writer.write(node.getShortCharacters().charAt(1));
         } else {
-          String value = node.getNewValues().get(0).getValue();
+          String value = node.getValues().get(0).getValue();
           if(!value.startsWith(" ")) writer.write(" ");
           final boolean literal = isLiteral(value);
           if(literal) writer.write("\"");
