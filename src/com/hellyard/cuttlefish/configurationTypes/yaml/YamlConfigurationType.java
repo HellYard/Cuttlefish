@@ -16,7 +16,7 @@ import com.hellyard.cuttlefish.definitions.yaml.YamlSequenceDefinition;
 import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandEndDefinition;
 import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandSeparatorDefinition;
 import com.hellyard.cuttlefish.definitions.yaml.YamlShorthandStartDefinition;
-import com.hellyard.cuttlefish.grammar.yaml.NewYamlGrammarizer;
+import com.hellyard.cuttlefish.grammar.yaml.YamlGrammarizer;
 import com.hellyard.cuttlefish.token.yaml.YamlTokenizer;
 
 import java.util.LinkedHashMap;
@@ -61,7 +61,7 @@ public class YamlConfigurationType implements ConfigurationType {
 
   @Override
   public Grammarizer getGrammarizer() {
-    return new NewYamlGrammarizer();
+    return new YamlGrammarizer();
   }
 
   @Override
