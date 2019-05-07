@@ -57,28 +57,28 @@ public class YamlTokenizer implements Tokenizer {
 
               if(!definition.getName().equalsIgnoreCase("yaml_comment")) {
                 if(commentBlock.size() > 0) {
-                  System.out.println("Add new block comment");
+                  //System.out.println("Add new block comment");
                   tokens.add(new BlockToken(lastComment, lastIndent, "yaml_comment", commentBlock));
                   commentBlock = new LinkedList<>();
                 }
-                System.out.println("Line: " + line);
+                //System.out.println("Line: " + line);
 
                 tokens.add(new Token(lineCount, indentation, definition.getName(), tokenValue));
                 line = matcher.replaceFirst("");
                 //System.out.println("Line: " + line);
-                System.out.println("Def: " + definition.getName());
+                //System.out.println("Def: " + definition.getName());
                 start = false;
               } else {
                 if(commentBlock.size()  < 1) {
-                  System.out.println("New Comment Block");
-                  System.out.println("Current Block: " + String.join(" - ", commentBlock));
+                 // System.out.println("New Comment Block");
+                  //System.out.println("Current Block: " + String.join(" - ", commentBlock));
                 }
                 commentBlock.add(tokenValue);
-                System.out.println("Line: " + line);
+                //System.out.println("Line: " + line);
                 line = matcher.replaceFirst("");
                 start = false;
 
-                System.out.println("Line: " + line);
+               // System.out.println("Line: " + line);
                 lastComment = lineCount;
                 lastIndent = indentation;
               }

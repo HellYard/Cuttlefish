@@ -87,6 +87,8 @@ public class YamlComposer implements Composer {
 
             if(value.getComments().size() > 0) {
               writer.newLine();
+            } else {
+              if(i > 0) writer.newLine();
             }
 
             final boolean literal = isLiteral(value.getValue());

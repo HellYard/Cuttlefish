@@ -14,7 +14,7 @@ public class MainTest {
   public static void main(String[] args) {
     LinkedList<YamlNode> nodes = null;
     try {
-      nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(new FileReader(Paths.get("C:\\Users\\creatorfromhell\\Desktop\\spigot2\\plugins\\TheNewEconomy\\config.yml").toFile()), "yaml").build().getNodes();
+      nodes = (LinkedList<YamlNode>)new CuttlefishBuilder(new FileReader(Paths.get("C:\\Users\\creatorfromhell\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\currency.yml").toFile()), "yaml").build().getNodes();
     } catch(FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -36,7 +36,7 @@ public class MainTest {
       //System.out.println("-------------------------");
     }*/
 
-    File file = new File("C:\\Users\\creatorfromhell\\Desktop\\spigot2\\plugins\\TheNewEconomy\\testwrite.yml");
+    File file = new File("C:\\Users\\creatorfromhell\\Desktop\\Minecraft\\spigot2\\plugins\\TheNewEconomy\\testwrite.yml");
     new YamlComposer().compose(file, nodes);
   }
 }
